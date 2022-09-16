@@ -31,6 +31,20 @@
                 </div>
 
                 <div class="col">
+                    <a href="{{ route('painel.fornecedores.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.fornecedores.']) ? 'active' : '' }}">
+                        <i class="bx bxs-business"></i>
+                        Fornecedores
+                    </a>
+                </div>
+
+                <div class="col">
+                    <a href="{{ route('painel.usuarios.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.usuarios.']) ? 'active' : '' }}">
+                        <i class="bx bx-user-circle"></i>
+                        Usuários
+                    </a>
+                </div>
+
+                <div class="col">
                     <a href="{{ route('painel.auditoria.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.auditoria.']) ? 'active' : '' }}">
                         <i class="bx bx-list-check"></i>
                         Auditoria
@@ -52,16 +66,9 @@
                 </div>
 
                 <div class="col">
-                    <a href="{{ route('painel.usuarios.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.usuarios.']) ? 'active' : '' }}">
-                        <i class="bx bx-user-circle"></i>
-                        Usuários
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="{{ route('painel.fornecedores.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.fornecedores.']) ? 'active' : '' }}">
-                        <i class="bx bxs-business"></i>
-                        Fornecedores
+                    <a href="{{ route('painel.montadoras.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.montadoras.']) ? 'active' : '' }}">
+                        <i class="bx bxs-car"></i>
+                        Montadoras
                     </a>
                 </div>
             </div>

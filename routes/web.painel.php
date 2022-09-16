@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\Painel\AgrupamentoController;
 use App\Http\Controllers\Painel\AuditoriaController;
 use App\Http\Controllers\Painel\Autenticacao\AuthenticatedSessionController;
 use App\Http\Controllers\Painel\DashboardController;
 use App\Http\Controllers\Painel\FornecedorController;
 use App\Http\Controllers\Painel\FornecedorTipoController;
-use App\Http\Controllers\Painel\AgrupamentoController;
+use App\Http\Controllers\Painel\MontadoraController;
 use App\Http\Controllers\Painel\UsuarioController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\ResourceRegistrar;
+use Illuminate\Support\Facades\Route;
 
 ResourceRegistrar::setParameters([
     'fornecedores' => 'fornecedor',
@@ -36,4 +37,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('fornecedores-tipos', FornecedorTipoController::class)->except('show');
     Route::resource('agrupamentos', AgrupamentoController::class)->except('show');
     Route::resource('auditoria', AuditoriaController::class)->except('show');
+    Route::resource('montadoras', MontadoraController::class)->except('show');
 });
