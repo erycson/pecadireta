@@ -21,4 +21,9 @@ class Agrupamento extends Model implements HasMedia, HasAsyncSelect
         'slug',
         'nome',
     ];
+
+    public function fornecedores()
+    {
+        return $this->hasMany(Fornecedor::class);
+    }
 }
