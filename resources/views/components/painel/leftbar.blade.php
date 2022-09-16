@@ -45,6 +45,13 @@
                 </div>
 
                 <div class="col">
+                    <a href="{{ route('painel.agrupamentos.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.agrupamentos.']) ? 'active' : '' }}">
+                        <i class="bx bx-user-pin"></i>
+                        Agrupamentos
+                    </a>
+                </div>
+
+                <div class="col">
                     <a href="{{ route('painel.usuarios.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.usuarios.']) ? 'active' : '' }}">
                         <i class="bx bx-user-circle"></i>
                         Usuários
