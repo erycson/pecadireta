@@ -1,0 +1,606 @@
+// Theme Light Colors
+$primary: #1DA1F2;
+$secondary: #657786;
+$success: #188038;
+$danger: #e00909;
+$warning: #191c1f;
+$info: #8ab4f8;
+$light: #F7F7F7;
+$dark: #202124;
+
+@import 'bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700&display=swap');
+
+// Scrollbar
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba($color: #000, $alpha: 0.15);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba($color: #000, $alpha: 0.20);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba($color: #000, $alpha: 0.25);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+// General
+body {
+    font-family: 'Albert Sans', sans-serif;
+}
+
+// Login
+.loading {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    .bx {
+        font-size: 3rem;
+    }
+}
+
+// Authentication
+.authentication {
+    // Border
+    .border, .border-top, .border-start, .border-end, .border-bottom {
+        border-color: rgba($color: #000, $alpha: 0.10) !important;
+    }
+
+    // Form
+    .form-control:focus {
+        box-shadow: none !important;
+    }
+}
+
+// General
+.wrapper {
+    min-height: calc(100vh - 64px);
+}
+
+// Header
+.header-sidebar, .header-main, .savebar {
+    min-height: 64px;
+}
+
+// Sidebar
+.footer-sidebar, .footer-main {
+    min-height: 64px;
+}
+
+// Box Icons
+.bx {
+    display: flex !important;
+    &.bx-sm {
+        font-size: 24px !important;
+    }
+}
+
+// Dropdown
+.dropdown-menu {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+// Button
+.btn {
+    font-family: 'Poppins', sans-serif;
+}
+.btn-menu {
+    font-family: 'Albert Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 8px 14px;
+    border-color: transparent !important;
+    border-radius: 6px;
+
+    &.accordion-button {
+        background: none;
+        box-shadow: none;
+    }
+
+    .bx {
+        font-size: 23px;
+        margin-right: 10px;
+    }
+
+}
+.btn-table {
+    width: 31px;
+    height: 31px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 100%;
+    .bx {
+        font-size: 18px;
+    }
+}
+
+// Alert
+.alert {
+    border-color: transparent;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500 !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+// Table
+.table {
+    font-size: 15px;
+    td {
+        vertical-align: middle;
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+    // Header
+    .header-main {
+        .nav-header {
+            .avatar {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                color: #FFFFFF;
+                font-size: 20px;
+            }
+            .btn {
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                .bx {
+                    font-size: 24px;
+                }
+            }
+            .search {
+                input {
+                    background-color: transparent;
+                    padding-left: 40px;
+                }
+            }
+        }
+    }
+
+    // Sidebar
+    .sidebar {
+        min-width: 254px;
+        max-width: 254px;
+        position: relative;
+
+        .menu-sidebar {
+            min-width: 254px;
+            max-width: 254px;
+            max-height: calc(100vh - 128px);
+            position: fixed;
+            top: 64px;
+            bottom: 64px;
+        }
+    }
+
+    // Footer
+    .footer-sidebar {
+        font-size: 13px;
+    }
+
+    // Side Menu
+    .side-menu {
+        min-width: 64px;
+        max-width: 64px;
+
+        .btn {
+            padding: 6px;
+            border-radius: 8px;
+        }
+        .bx {
+            font-size: 22px;
+        }
+    }
+
+    // Mode Light
+    .mode-light {
+
+        // Sidebar
+        .sidebar {
+            min-width: 254px;
+            max-width: 254px;
+        }
+
+    }
+
+}
+
+// `lg` applies to medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+
+    // Header
+    .header-main {
+        .nav-header {
+            .avatar {
+                width: 34px;
+                height: 34px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                color: #FFFFFF;
+                font-size: 18px;
+            }
+            .btn {
+                width: 34px;
+                height: 34px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                .bx {
+                    font-size: 22px;
+                }
+            }
+            .search {
+                input {
+                    padding-left: 40px;
+                }
+            }
+        }
+    }
+
+}
+
+// Mode Light
+.mode-light {
+    background-color: $light;
+
+    hr {
+        border-color: rgba($color: #000, $alpha: 0.35);
+    }
+
+    .logo-dark {
+        display: none;
+    }
+
+    // Buttons
+    .btn {
+        border-color: transparent !important;
+    }
+
+    // Border
+    .border, .border-top, .border-start, .border-end, .border-bottom {
+        border-color: rgba($color: #000000, $alpha: 0.06) !important;
+    }
+
+    // Header
+    .header-main {
+        background-color: #FFF;
+        .nav-header {
+            .search {
+                input {
+                    border-color: rgba($color: #000, $alpha: 0.08);
+                }
+            }
+        }
+        .savebar {
+            background-color: #FFF;
+        }
+    }
+
+    // Sidebar
+    .sidebar, .header-sidebar, .footer-sidebar {
+        background-color: #FFF !important;
+
+        // Border
+        .border, .border-top, .border-start, .border-end, .border-bottom {
+            border-color: rgba($color: #000, $alpha: 0.06) !important;
+        }
+
+
+    }
+
+    // Side Menu
+    .side-menu {
+        background-color: #FFFFFF;
+    }
+
+    // Buttons
+    .btn-light {
+        background-color: transparent;
+        &:hover, &:focus {
+            background-color: #F3F3F3;
+        }
+    }
+
+    .btn-menu {
+        color: #000;
+        position: relative;
+
+        .bx {
+            color: #000;
+        }
+
+        &:hover {
+            background-color: rgba(#000, $alpha: 0.03);
+            color: #000;
+            .bx {
+                color: #000;
+            }
+        }
+
+        &.active {
+            background-color: rgba($color: $primary, $alpha: .06);
+            color: #000;
+            font-weight: 600;
+
+            &:after {
+                content: "";
+                width: 4px;
+                height: 90%;
+                background-color: rgba($color: $primary, $alpha: 0.50);
+                position: absolute;
+                border-radius: 3px;
+                left: 2px;
+            }
+
+            .bx {
+                color: #000;
+            }
+        }
+
+        &.accordion-button:not(.collapsed) {
+            box-shadow: none;
+            .bx {
+                color: #000;
+            }
+        }
+
+        &.accordion-button:not(.collapsed) {
+            color: #000;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+    }
+
+    // Dropdown
+    .dropdown-menu {
+        border-color: rgba($color: #000000, $alpha: 0.06) !important;
+    }
+
+    // Cards
+    .card {
+        border-color: rgba($color: #000000, $alpha: 0.08) !important;
+
+        .card-header {
+            background: none;
+            border-color: rgba($color: #000000, $alpha: 0.05);
+        }
+        .card-footer {
+            background: none;
+        }
+        &:active, &:focus, &:hover {
+            border-color: transparent !important;
+            box-shadow: 0 0 0 2px rgba($color: $primary, $alpha: 0.57);
+            outline: none;
+            transition: box-shadow .2s ease-out .1s,border .2s ease-out,border-radius .2s ease-out,background-color .1s ease-out,color .1s ease-out,transform .1s ease-out;
+        }
+    }
+
+    // Cards
+    /*
+    .card-hover {
+        &:active, &:focus, &:hover {
+            border-color: transparent !important;
+            box-shadow: 0 0 0 2px rgba($color: $primary, $alpha: 0.57);
+            outline: none;
+            transition: box-shadow .2s ease-out .1s,border .2s ease-out,border-radius .2s ease-out,background-color .1s ease-out,color .1s ease-out,transform .1s ease-out;
+        }
+    }
+    */
+
+}
+
+// Mode Light
+.mode-dark {
+    background-color: $dark;
+    color: #FFF !important;
+
+    hr {
+        border-color: rgba($color: #FFF, $alpha: 0.25) !important;
+    }
+
+    .logo-light {
+        display: none;
+    }
+
+    //
+    .text-muted {
+        color: rgba($color: #FFF, $alpha: 0.60) !important;
+    }
+
+    // Buttons
+    .btn {
+        border-color: transparent !important;
+    }
+
+    // Border
+    .border, .border-top, .border-start, .border-end, .border-bottom {
+        border-color: rgba($color: #FFF, $alpha: 0.10) !important;
+    }
+
+    // Header
+    .header-main {
+        background-color: $dark;
+        .nav-header {
+            .search {
+                input {
+                    border-color: rgba($color: #FFF, $alpha: 0.10);
+                }
+            }
+        }
+        .savebar {
+            background-color: $dark;
+        }
+    }
+
+    // Sidebar
+    .sidebar, .header-sidebar, .footer-sidebar {
+        background-color: #303134 !important;
+
+        // Border
+        .border, .border-top, .border-start, .border-end, .border-bottom {
+            border-color: rgba($color: #FFF, $alpha: 0.10) !important;
+        }
+
+    }
+
+    // Side Menu
+    .side-menu {
+        background-color: #303134;
+    }
+
+    // Buttons
+    .btn-light {
+        background-color: transparent;
+        color: #FFF;
+        &:hover, &:focus {
+            background-color: rgba(#FFF, $alpha: 0.08);
+        }
+    }
+
+    .btn-menu {
+        color: #FFF;
+        position: relative;
+
+        .bx {
+            color: #FFF;
+        }
+
+        &:hover {
+            background-color: rgba(#FFF, $alpha: 0.08);
+            color: #FFF;
+            .bx {
+                color: #FFF;
+            }
+        }
+
+        &.active {
+            background-color: rgba(#FFF, $alpha: 0.10);
+            color: #FFF;
+            font-weight: 600;
+
+            &:after {
+                content: "";
+                width: 4px;
+                height: 90%;
+                background-color: rgba($color: $primary, $alpha: 0.50);
+                position: absolute;
+                border-radius: 3px;
+                left: 2px;
+            }
+
+            .bx {
+                color: #FFF;
+            }
+        }
+
+        &.accordion-button:not(.collapsed) {
+            box-shadow: none;
+            .bx {
+                color: #FFF;
+            }
+        }
+
+        &.accordion-button:not(.collapsed) {
+            color: #FFF;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        &.accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+        }
+
+    }
+
+    // Cards
+    .card {
+        background-color: rgba(#000, $alpha: 0.10);
+        border-color: rgba($color: #FFF, $alpha: 0.10);
+        border: transparent;
+
+        .card-header {
+            background: transparent;
+            border-color: rgba($color: #FFF, $alpha: 0.10);
+        }
+        .card-footer {
+            background: transparent;
+        }
+        &:active, &:focus, &:hover {
+            border-color: transparent !important;
+            box-shadow: 0 0 0 2px rgba($color: $primary, $alpha: 0.57);
+            outline: none;
+            transition: box-shadow .2s ease-out .1s,border .2s ease-out,border-radius .2s ease-out,background-color .1s ease-out,color .1s ease-out,transform .1s ease-out;
+        }
+    }
+
+    // Table
+    table, tbody, td, tfoot, th, thead, tr {
+        color: #FFF;
+        border-color: rgba($color: #FFF, $alpha: 0.10) !important;
+    }
+
+    // Alert
+    .alert {
+        color: #FFF;
+        a {
+            color: #FFF;
+        }
+    }
+    .alert-secondary {
+        background-color: rgba($color: $secondary, $alpha: .20);
+    }
+
+    // Input
+    input, select, textarea {
+        background-color: transparent;
+        color: #BBB;
+        border-color: rgba($color: #FFF, $alpha: 0.10) !important;
+        &:focus {
+            background-color: transparent;
+            color: #BBB;
+        }
+    }
+}

@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: pecadireta-mailhog
+    ports:
+      - "8025:8025"
+
+  redis:
+    image: redis:latest
+    container_name: pecadireta-redis
+    ports:
+      - "6379:6379"
+
+  meilisearch:
+      container_name: 'pecadireta-meilisearch'
+      image: 'getmeili/meilisearch:v0.28'
+      environment:
+          - MEILI_MASTER_KEY=ad88bd595327b96t
+      volumes:
+          - './.docker/meilisearch:/data.ms'
+      ports:
+          - '7700:7700'
+
+  sqlsrv:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: pecadireta-sqlsrv
+    environment:
+      - SA_PASSWORD=ad88bd595327b96t
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+
+  web:
+    image: bref/fpm-dev-gateway
+    container_name: pecadireta-web
+    ports:
+      - '80:80'
+    volumes:
+      - .:/var/task
+      - /var/task/vendor
+    depends_on:
+      - php
+    environment:
+      HANDLER: public/index.php
+      DOCUMENT_ROOT: public
+
+  php:
+    build:
+      context: .
+      dockerfile: .docker/php-fpm/Dockerfile
+    container_name: pecadireta-php
+    volumes:
+      - .:/var/task
+      - /var/task/vendor
