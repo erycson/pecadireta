@@ -1,6 +1,6 @@
 @props(['items'])
 
-<nav class="nav-breadcrumb py-2 px-5 small border-bottom d-none d-lg-block" aria-label="breadcrumb">
+<nav class="nav-breadcrumb py-2 px-5 small border-bottom" aria-label="breadcrumb">
     <ol class="breadcrumb m-0">
         @foreach ($items as $item)
             @if ($loop->last)
