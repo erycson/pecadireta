@@ -19,13 +19,12 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('email')->unique();
-            $table->timestampTz('verificado_em', 0)->nullable();
+            $table->timestamp('verificado_em', 0)->nullable();
             $table->string('senha');
             $table->string('token_relembrar', 100)->nullable();
-
-            $table->timestampTz('criado_em', 0)->nullable();
-            $table->timestampTz('atualizado_em', 0)->nullable();
-            $table->timestampTz('removido_em', 0)->nullable();
+            $table->timestamp('criado_em', 0);
+            $table->timestamp('atualizado_em', 0);
+            $table->timestamp('removido_em', 0)->nullable();
         });
 
         Usuario::create([

@@ -21,17 +21,17 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('nome');
-            $table->timestampTz('criado_em', 0)->nullable();
-            $table->timestampTz('atualizado_em', 0)->nullable();
-            $table->timestampTz('removido_em', 0)->nullable();
+            $table->timestamp('criado_em', 0);
+            $table->timestamp('atualizado_em', 0);
+            $table->timestamp('removido_em', 0)->nullable();
         });
 
         Schema::create('fornecedor_tipos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->timestampTz('criado_em', 0)->nullable();
-            $table->timestampTz('atualizado_em', 0)->nullable();
-            $table->timestampTz('removido_em', 0)->nullable();
+            $table->timestamp('criado_em', 0);
+            $table->timestamp('atualizado_em', 0);
+            $table->timestamp('removido_em', 0)->nullable();
         });
 
         Schema::create('fornecedores', function (Blueprint $table) {
@@ -48,9 +48,9 @@ return new class extends Migration
             $table->geometry('geolocalizacao')->nullable();
             $table->date('avaliacao_ate')->nullable();
             $table->date('pago_ate')->nullable();
-            $table->timestampTz('criado_em', 0)->nullable();
-            $table->timestampTz('atualizado_em', 0)->nullable();
-            $table->timestampTz('removido_em', 0)->nullable();
+            $table->timestamp('criado_em', 0);
+            $table->timestamp('atualizado_em', 0);
+            $table->timestamp('removido_em', 0)->nullable();
         });
 
         Schema::table('usuarios', function (Blueprint $table) {
@@ -87,6 +87,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('usuarios', function (Blueprint $table) {
+            $table->dropForeign(['fornecedor_id']);
+        });
         Schema::table('usuarios', function (Blueprint $table) {
             $table->dropColumn('fornecedor_id');
         });
