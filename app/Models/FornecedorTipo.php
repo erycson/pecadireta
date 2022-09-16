@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Libraries\AsyncSelect\AsyncSelectTrait;
 use App\Libraries\AsyncSelect\HasAsyncSelect;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FornecedorTipo extends Model implements HasAsyncSelect
 {
-    use AsyncSelectTrait;
+    use AsyncSelectTrait, SoftDeletes;
 
     const CREATED_AT = 'criado_em';
     const UPDATED_AT = 'atualizado_em';
@@ -17,4 +18,9 @@ class FornecedorTipo extends Model implements HasAsyncSelect
     protected $fillable = [
         'nome',
     ];
+
+    public function fornecedores()
+    {
+        return $this->hasMany(Fornecedor::class);
+    }
 }

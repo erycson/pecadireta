@@ -36,8 +36,8 @@ return new class extends Migration
 
         Schema::create('fornecedores', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Agrupamento::class)->nullable();
-            $table->foreignIdFor(FornecedorTipo::class)->nullable();
+            $table->foreignIdFor(Agrupamento::class)->nullable()->references('id')->on('agrupamentos')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(FornecedorTipo::class)->nullable()->references('id')->on('fornecedor_tipos')->nullOnDelete()->cascadeOnUpdate();
             $table->char('cnpj', 14)->unique();
             $table->string('url')->nullable();
             $table->string('razao_social');
@@ -54,7 +54,7 @@ return new class extends Migration
         });
 
         Schema::table('usuarios', function (Blueprint $table) {
-            $table->foreignIdFor(Fornecedor::class)->nullable()->after('id');
+            $table->foreignIdFor(Fornecedor::class)->nullable()->after('id')->references('id')->on('fornecedores')->nullOnDelete()->cascadeOnUpdate();
         });
 
         $agrupamento = Agrupamento::create(['slug' => 'brasilwagen', 'nome' => 'Brasilwagen']);

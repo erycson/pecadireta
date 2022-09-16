@@ -38,6 +38,13 @@
                 </div>
 
                 <div class="col">
+                    <a href="{{ route('painel.fornecedores-tipos.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.fornecedores-tipos.']) ? 'active' : '' }}">
+                        <i class="bx bx-user-pin"></i>
+                        Tipos de Fornecedores
+                    </a>
+                </div>
+
+                <div class="col">
                     <a href="{{ route('painel.usuarios.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.usuarios.']) ? 'active' : '' }}">
                         <i class="bx bx-user-circle"></i>
                         Usuários
