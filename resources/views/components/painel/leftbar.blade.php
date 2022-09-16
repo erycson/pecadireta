@@ -73,7 +73,7 @@
             <div class="row justify-content-between align-items-center">
                 <div class="col-auto">
                     <small class="fw-bold d-block">Logado como:</small>
-                    <span>Érycson Nóbrega</span>
+                    <span>{{ request()->user()->nome }}</span>
                 </div>
 
                 <div class="col-auto">
