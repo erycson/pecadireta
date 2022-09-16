@@ -22,9 +22,7 @@
                     </div>
 
                     <div class="card-body px-4">
-                        <div class="table-responsive">
-                            {!! $dataTable->table() !!}
-                        </div>
+                        {!! $dataTable->table() !!}
                     </div>
                 </div>
             </div>
@@ -32,6 +30,6 @@
     </div>
 
     <x-slot:javascripts>
-        {!! $dataTable->scripts() !!}
+        {!! $dataTable->scripts(null, ['defer', 'type' => 'module']) !!}
     </x-slot>
 </x-painel.dash-layout>

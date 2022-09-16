@@ -55,7 +55,7 @@ class Agrupamentos extends DataTable
                     ->setTableId($className . '-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')
+                    ->parameters(['responsive' => true])
                     ->orderBy(1, 'asc');
     }
 

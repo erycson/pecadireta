@@ -76,7 +76,7 @@ class Fornecedores extends DataTable
                     ->setTableId($className . '-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')
+                    ->parameters(['responsive' => true])
                     ->orderBy(2, 'asc');
     }
 

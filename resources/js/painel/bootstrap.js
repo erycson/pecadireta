@@ -1,21 +1,20 @@
 import _ from "lodash";
-import * as  bootstrap from "bootstrap";
-import dt from "datatables.net";
-import dt_bs5 from "datatables.net-bs5";
-import dt_responsive_bs5 from "datatables.net-responsive-bs5";
+import * as bootstrap from "bootstrap";
 import jQuery from "jquery";
-import dt_datetime from "datatables.net-plugins/dataRender/datetime";
+import DataTable from "datatables.net-bs5";
+import DataTableResponsive from "datatables.net-responsive-bs5";
 import "boxicons";
 import axios from "axios";
 
-window._ = _;
-window.bootstrap = bootstrap;
-window.jQuery = window.$ = jQuery;
+Object.assign(window, {
+    _,
+    bootstrap,
+    jQuery,
+    $: jQuery
+});
 
-dt();
-dt_bs5();
-dt_responsive_bs5();
-dt_datetime();
+DataTable();
+DataTableResponsive();
 
 Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     .map(el => new bootstrap.Tooltip(el));
@@ -49,4 +48,44 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 //     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? "https") === "https",
 //     enabledTransports: ["ws", "wss"],
+// });
+
+// $.extend($.fn.dataTable.defaults, {
+//     language: {
+//       sEmptyTable: "Nenhum registro encontrado",
+//       sInfo: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+//       sInfoEmpty: "Mostrando 0 até 0 de 0 registros",
+//       sInfoFiltered: "(Filtrados de _MAX_ registros)",
+//       sInfoThousands: ".",
+//       sLengthMenu: "_MENU_ resultados por página",
+//       sLoadingRecords: "Carregando...",
+//       sProcessing: "Processando...",
+//       sZeroRecords: "Nenhum registro encontrado",
+//       sSearch: "Pesquisar",
+//       oPaginate: {
+//         sNext: "Próximo",
+//         sPrevious: "Anterior",
+//         sFirst: "Primeiro",
+//         sLast: "Último"
+//       },
+//       oAria: {
+//         sSortAscending: ": Ordenar colunas de forma ascendente",
+//         sSortDescending: ": Ordenar colunas de forma descendente"
+//       },
+//       select: {
+//         rows: {
+//           "_": "Selecionado %d linhas",
+//           "0": "Nenhuma linha selecionada",
+//           "1": "Selecionado 1 linha"
+//         }
+//       },
+//       buttons: {
+//         copy: "Copiar para a área de transferência",
+//         copyTitle: "Cópia bem sucedida",
+//         copySuccess: {
+//           "1": "Uma linha copiada com sucesso",
+//           "_": "%d linhas copiadas com sucesso"
+//         }
+//       }
+//     }
 // });
