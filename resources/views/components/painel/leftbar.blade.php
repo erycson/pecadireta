@@ -39,14 +39,14 @@
 
                 <div class="col">
                     <a href="{{ route('painel.fornecedores-tipos.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.fornecedores-tipos.']) ? 'active' : '' }}">
-                        <i class="bx bx-user-pin"></i>
+                        <i class="bx bx-store"></i>
                         Tipos de Fornecedores
                     </a>
                 </div>
 
                 <div class="col">
                     <a href="{{ route('painel.agrupamentos.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.agrupamentos.']) ? 'active' : '' }}">
-                        <i class="bx bx-user-pin"></i>
+                        <i class="bx bx-group"></i>
                         Agrupamentos
                     </a>
                 </div>
@@ -60,7 +60,7 @@
 
                 <div class="col">
                     <a href="{{ route('painel.fornecedores.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.fornecedores.']) ? 'active' : '' }}">
-                        <i class="bx bx-user-pin"></i>
+                        <i class="bx bxs-business"></i>
                         Fornecedores
                     </a>
                 </div>
