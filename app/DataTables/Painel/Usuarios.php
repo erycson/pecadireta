@@ -51,8 +51,9 @@ class Usuarios extends DataTable
      */
     public function html()
     {
+        $className = strtolower((new \ReflectionClass($this))->getShortName());
         return $this->builder()
-                    ->setTableId('usuarios-table')
+                    ->setTableId($className . '-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')

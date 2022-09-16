@@ -29,6 +29,8 @@ class Auditorias extends DataTable
         return match (!is_null($model) ? get_class($model) : null) {
             \App\Models\Usuario::class    => 'Usuário',
             \App\Models\Fornecedor::class => 'Fornecedor',
+            \App\Models\FornecedorTipo::class => 'Tipo de Fornecedor',
+            \App\Models\Agrupamento::class => 'Agrupamento',
             default => ''
         };
     }
@@ -51,8 +53,9 @@ class Auditorias extends DataTable
      */
     public function html()
     {
+        $className = strtolower((new \ReflectionClass($this))->getShortName());
         return $this->builder()
-                    ->setTableId('auditorias-table')
+                    ->setTableId($className . '-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')

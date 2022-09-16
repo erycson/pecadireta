@@ -71,12 +71,13 @@ class Fornecedores extends DataTable
      */
     public function html()
     {
+        $className = strtolower((new \ReflectionClass($this))->getShortName());
         return $this->builder()
-                    ->setTableId('fornecedores-table')
+                    ->setTableId($className . '-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1, 'asc');
+                    ->orderBy(2, 'asc');
     }
 
     /**
