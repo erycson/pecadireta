@@ -2,10 +2,10 @@
 
 namespace App\DataTables\Painel;
 
+use App\Models\LogAtividade as Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-
-use App\Models\LogAtividade as Model;
 
 class Auditorias extends DataTable
 {
@@ -24,13 +24,15 @@ class Auditorias extends DataTable
             ->editColumn('subject_type', fn ($auditoria) => $this->getTipoModel($auditoria->subject));
     }
 
-    protected function getTipoModel(?object $model): string
+    protected function getTipoModel(?EloquentModel $model): string
     {
         return match (!is_null($model) ? get_class($model) : null) {
-            \App\Models\Usuario::class    => 'Usuário',
-            \App\Models\Fornecedor::class => 'Fornecedor',
+            \App\Models\Usuario::class        => 'Usuário',
+            \App\Models\Fornecedor::class     => 'Fornecedor',
             \App\Models\FornecedorTipo::class => 'Tipo de Fornecedor',
-            \App\Models\Agrupamento::class => 'Agrupamento',
+            \App\Models\Agrupamento::class    => 'Agrupamento',
+            \App\Models\Modelo::class         => 'Modelo',
+            \App\Models\Montadora::class      => 'Montadora',
             default => ''
         };
     }
@@ -43,7 +45,7 @@ class Auditorias extends DataTable
      */
     public function query(Model $model)
     {
-        return $model->newQuery();
+        return $model->with(['causer', 'subject'])->newQuery();
     }
 
     /**
