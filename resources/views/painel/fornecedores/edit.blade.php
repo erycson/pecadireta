@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-auto">
-                        <span class="h4">Editar Ususário</span>
+                        <span class="h4">Editar Fornecedor</span>
                     </div>
                     <div class="col-auto">
                         {!! Form::model($fornecedor, ['url' => route('painel.fornecedores.destroy', [$fornecedor]), 'method' => 'delete']) !!}
