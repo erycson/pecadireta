@@ -6,6 +6,7 @@ use App\Http\Controllers\Painel\Autenticacao\AuthenticatedSessionController;
 use App\Http\Controllers\Painel\DashboardController;
 use App\Http\Controllers\Painel\FornecedorController;
 use App\Http\Controllers\Painel\FornecedorTipoController;
+use App\Http\Controllers\Painel\ModeloController;
 use App\Http\Controllers\Painel\MontadoraController;
 use App\Http\Controllers\Painel\UsuarioController;
 use Illuminate\Routing\ResourceRegistrar;
@@ -38,4 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('agrupamentos', AgrupamentoController::class)->except('show');
     Route::resource('auditoria', AuditoriaController::class)->except('show');
     Route::resource('montadoras', MontadoraController::class)->except('show');
+
+    Route::get('modelos/montadoras', [ModeloController::class, 'montadoras'])->name('modelos.montadoras');
+    Route::resource('modelos', ModeloController::class)->except('show');
 });

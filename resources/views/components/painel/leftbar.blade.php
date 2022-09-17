@@ -71,6 +71,13 @@
                         Montadoras
                     </a>
                 </div>
+
+                <div class="col">
+                    <a href="{{ route('painel.modelos.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.modelos.']) ? 'active' : '' }}">
+                        <i class="bx bx-package"></i>
+                        Modelos
+                    </a>
+                </div>
             </div>
         </div>
     </div>
