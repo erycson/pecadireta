@@ -7,6 +7,7 @@ use App\Models\Fornecedor;
 use App\Models\Agrupamento;
 use App\Models\FornecedorTipo;
 use Illuminate\Support\Facades\DB;
+use App\Models\Cep;
 
 return new class extends Migration
 {
@@ -42,7 +43,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('razao_social');
             $table->string('nome_fantasia');
-            $table->char('cep', 8);
+            $table->foreignIdFor(Cep::class)->nullable()->references('id')->on('ceps')->nullOnDelete()->cascadeOnUpdate();
             $table->string('numero')->nullable();
             $table->string('complemento')->nullable();
             $table->geometry('geolocalizacao')->nullable();
@@ -71,7 +72,7 @@ return new class extends Migration
             'url' => 'https://www.brasilwagen.com.br/',
             'razao_social' => 'Brasilwagen Comercio de Veiculos S/A',
             'nome_fantasia' => 'Brasilwagen',
-            'cep' => '02065000',
+            'cep_id' => 879168,
             'numero' => '16',
             'complemento' => null,
             'geolocalizacao' => ['latitude' => -23.5160315, 'longitude' => -46.6082439],

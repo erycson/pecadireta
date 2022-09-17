@@ -10,6 +10,7 @@ use App\Models\Agrupamento;
 use App\Models\Fornecedor;
 use App\Models\FornecedorTipo;
 use Illuminate\Http\Request;
+use App\Models\Cep;
 
 class FornecedorController extends Controller
 {
@@ -105,5 +106,10 @@ class FornecedorController extends Controller
     public function tipos()
     {
         return FornecedorTipo::handleAsyncSelectRequest();
+    }
+
+    public function ceps()
+    {
+        return Cep::handleAsyncSelectRequest();
     }
 }

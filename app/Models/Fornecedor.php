@@ -28,7 +28,7 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect
         'url',
         'razao_social',
         'nome_fantasia' ,
-        'cep',
+        'cep_id',
         'numero',
         'complemento',
         'geolocalizacao',
@@ -69,6 +69,11 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect
     public function tipo()
     {
         return $this->belongsTo(FornecedorTipo::class, 'fornecedor_tipo_id');
+    }
+
+    public function cep()
+    {
+        return $this->belongsTo(Cep::class);
     }
 
     protected function geolocalizacao(): Attribute

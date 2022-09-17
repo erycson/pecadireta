@@ -31,7 +31,7 @@ trait AsyncSelectTrait
         ])->limit(20);
 
         $request = request();
-        if (!$request->filled('q')) {
+        if ($request->filled('q')) {
             $query->where($model->asyncSelect['label'], 'LIKE', "%{$request->q}%");
         }
 

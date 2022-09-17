@@ -39,7 +39,7 @@
 
     <div class="col-lg-4">
         <x-label for="cep" class="form-label" value="CEP" />
-        <x-form.cep name="cep" :value="$fornecedor->cep ?? null" />
+        <x-form.async-select :model="$fornecedor->cep ?? null" route="painel.fornecedores.ceps" name="cep" />
         <x-form.feedback for="cep" />
     </div>
 

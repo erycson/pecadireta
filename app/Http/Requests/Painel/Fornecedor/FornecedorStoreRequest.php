@@ -30,7 +30,7 @@ class FornecedorStoreRequest extends FormRequest
             'fornecedor_tipo_id'       => 'nullable|exists:fornecedor_tipos,id',
             'razao_social'             => 'required|string|max:255',
             'nome_fantasia'            => 'required|string|max:255',
-            'cep'                      => 'required|numeric|min_digits:8|max_digits:8',
+            'cep_id'                   => 'required|exists:ceps,id',
             'numero'                   => 'nullable|string|max:255',
             'complemento'              => 'nullable|string|max:255',
             'geolocalizacao'           => 'nullable|array',

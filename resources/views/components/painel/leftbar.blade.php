@@ -78,6 +78,13 @@
                         Modelos
                     </a>
                 </div>
+
+                <div class="col">
+                    <a href="{{ route('painel.ceps.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.ceps.']) ? 'active' : '' }}">
+                        <i class="bx bx-map-alt"></i>
+                        CEPs
+                    </a>
+                </div>
             </div>
         </div>
     </div>

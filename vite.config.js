@@ -9,8 +9,9 @@ export default defineConfig({
             input: [
                 'resources/css/painel/global.scss',
                 'resources/js/painel/global.js',
-                'resources/js/painel/usuarios/editar.jsx',
+                'resources/js/painel/ceps/editar.jsx',
                 'resources/js/painel/modelos/editar.jsx',
+                'resources/js/painel/usuarios/editar.jsx',
                 'resources/js/painel/fornecedores/editar.jsx',
             ],
             buildDirectory: 'build',
