@@ -39,7 +39,7 @@ return new class extends Migration
 
         collect(json_decode(file_get_contents(storage_path('fipe-montadoras.json')), true))
             ->map(fn ($montadora) => [...$montadora, 'criado_em' => $agora, 'atualizado_em' => $agora])
-            ->split(50)
+            ->chunk(100)
             ->each(fn ($grupo) => Montadora::insert($grupo->toArray()));
 
         DB::unprepared('SET IDENTITY_INSERT montadoras OFF');
@@ -48,7 +48,7 @@ return new class extends Migration
 
         collect(json_decode(file_get_contents(storage_path('fipe-modelos.json')), true))
             ->map(fn ($modelo) => [...$modelo, 'criado_em' => $agora, 'atualizado_em' => $agora])
-            ->split(50)
+            ->chunk(100)
             ->each(fn ($grupo) => Modelo::insert($grupo->toArray()));
 
         DB::unprepared('SET IDENTITY_INSERT modelos OFF');
