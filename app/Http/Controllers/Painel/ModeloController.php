@@ -24,6 +24,7 @@ class ModeloController extends Controller
     public function store(ModeloStoreRequest $request)
     {
         $modelo = Modelo::create($request->only([
+            'montadora_id',
             'nome'
         ]));
 
@@ -38,12 +39,14 @@ class ModeloController extends Controller
 
     public function edit(Modelo $modelo)
     {
+        $modelo->loadMissing(['montadora']);
         return view('painel.modelos.edit', compact('modelo'));
     }
 
     public function update(ModeloUpdateRequest $request, Modelo $modelo)
     {
         $modelo->update($request->only([
+            'montadora_id',
             'nome'
         ]));
 

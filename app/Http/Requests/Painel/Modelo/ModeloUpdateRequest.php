@@ -24,7 +24,7 @@ class ModeloUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'montadora_id' => 'required|exits:montadoras,id',
+            'montadora_id' => 'required|exists:montadoras,id',
             'nome' => 'required|string|max:255',
         ];
     }
