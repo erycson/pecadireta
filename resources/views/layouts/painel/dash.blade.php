@@ -25,7 +25,7 @@
                         <x-painel.footer />
                     </div>
 
-                    <x-painel.rightbar />
+                    {{-- <x-painel.rightbar /> --}}
                 </div>
             </div>
         </div>
