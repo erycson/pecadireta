@@ -36,7 +36,6 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect
         'avaliacao_ate',
     ];
 
-
     protected $casts = [
         'pago_ate'      => 'datetime',
         'avaliacao_ate' => 'datetime',

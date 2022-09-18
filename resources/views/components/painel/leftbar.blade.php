@@ -85,6 +85,13 @@
                         CEPs
                     </a>
                 </div>
+
+                <div class="col">
+                    <a href="{{ route('painel.faqs.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.faqs.']) ? 'active' : '' }}">
+                        <i class="bx bx-question-mark"></i>
+                        FAQs
+                    </a>
+                </div>
             </div>
         </div>
     </div>

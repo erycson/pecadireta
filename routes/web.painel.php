@@ -5,6 +5,7 @@ use App\Http\Controllers\Painel\AuditoriaController;
 use App\Http\Controllers\Painel\Autenticacao\AuthenticatedSessionController;
 use App\Http\Controllers\Painel\CepController;
 use App\Http\Controllers\Painel\DashboardController;
+use App\Http\Controllers\Painel\FaqController;
 use App\Http\Controllers\Painel\FornecedorController;
 use App\Http\Controllers\Painel\FornecedorTipoController;
 use App\Http\Controllers\Painel\ModeloController;
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('auditoria', AuditoriaController::class)->except('show');
     Route::resource('montadoras', MontadoraController::class)->except('show');
     Route::resource('ceps', CepController::class)->except('show');
+    Route::resource('faqs', FaqController::class)->except('show');
 
     Route::get('modelos/montadoras', [ModeloController::class, 'montadoras'])->name('modelos.montadoras');
     Route::resource('modelos', ModeloController::class)->except('show');
