@@ -3,9 +3,12 @@
 namespace App\Http\Requests\Painel\Fornecedor;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Libraries\Contato\ContatoRequestTrait;
 
 class FornecedorStoreRequest extends FormRequest
 {
+    use ContatoRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,7 +26,7 @@ class FornecedorStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        return array_merge([
             'cnpj'                     => 'required|string|cnpj|unique:fornecedores,cnpj',
             'url'                      => 'required|string|url|max:255',
             'agrupamento_id'           => 'nullable|exists:agrupamentos,id',
@@ -38,6 +41,11 @@ class FornecedorStoreRequest extends FormRequest
             'geolocalizacao.longitude' => 'required|numeric',
             'avaliacao_ate'            => 'nullable|date',
             'pago_ate'                 => 'nullable|date',
-        ];
+        ], $this->contatoRules());
+    }
+
+    public function attributes()
+    {
+        return $this->contatoAttributes();
     }
 }

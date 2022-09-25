@@ -8,8 +8,8 @@ use App\Http\Requests\Painel\Usuario\UsuarioStoreRequest;
 use App\Http\Requests\Painel\Usuario\UsuarioUpdateRequest;
 use App\Models\Fornecedor;
 use App\Models\Usuario;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
@@ -25,9 +25,16 @@ class UsuarioController extends Controller
 
     public function store(UsuarioStoreRequest $request)
     {
+        DB::beginTransaction();
+
         $form = $request->only(['email', 'nome', 'senha', 'fornecedor_id']);
         $form['senha'] = Hash::make($form['senha']);
         $usuario = Usuario::create($form);
+
+        $contatos = $request->input('contatos', []);
+        $usuario->contatos()->createMany($contatos);
+
+        DB::commit();
 
         activity()
             ->event('painel.usuario')
@@ -40,17 +47,25 @@ class UsuarioController extends Controller
 
     public function edit(Usuario $usuario)
     {
-        $usuario->loadMissing('fornecedor');
+        $usuario->loadMissing(['fornecedor', 'contatos']);
         return view('painel.usuarios.edit', compact('usuario'));
     }
 
     public function update(Usuario $usuario, UsuarioUpdateRequest $request)
     {
+        DB::beginTransaction();
+
         $form = $request->only(['email', 'nome', 'fornecedor_id']);
         if ($request->filled('senha')) {
             $form['senha'] = Hash::make($request->senha);
         }
         $usuario->update($form);
+
+        $contatos = $request->input('contatos', []);
+        $usuario->contatos()->delete();
+        $usuario->contatos()->createMany($contatos);
+
+        DB::commit();
 
         activity()
             ->event('painel.usuario')
@@ -58,6 +73,7 @@ class UsuarioController extends Controller
             ->on($usuario)
             ->tap(auditor($usuario))
             ->log('Atualizou o usuário');
+
 
         return back()->withInput();
     }

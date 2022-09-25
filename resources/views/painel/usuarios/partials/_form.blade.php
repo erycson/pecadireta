@@ -1,7 +1,7 @@
 <div class="row g-3 g-lg-4 mb-3 mb-lg-4">
     <div class="col-lg-4">
         <x-label for="fornecedor_id" class="form-label" value="Fornecedor" />
-        <x-form.async-select :model="$usuario->fornecedor" route="painel.usuarios.fornecedores" name="fornecedor_id" />
+        <x-form.async-select :model="$usuario->fornecedor ?? null" route="painel.usuarios.fornecedores" name="fornecedor_id" />
         <x-form.feedback for="fornecedor_id" />
     </div>
 

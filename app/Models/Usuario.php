@@ -2,18 +2,24 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Libraries\AsyncSelect\AsyncSelectTrait;
+use App\Libraries\AsyncSelect\HasAsyncSelect;
+use App\Libraries\Contato\ContatoTrait;
+use App\Libraries\Contato\HasContato;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Libraries\AsyncSelect\AsyncSelectTrait;
-use App\Libraries\AsyncSelect\HasAsyncSelect;
 
-class Usuario extends Authenticatable implements HasAsyncSelect
+class Usuario extends Authenticatable implements HasAsyncSelect, HasContato
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, AsyncSelectTrait;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        SoftDeletes,
+        AsyncSelectTrait,
+        ContatoTrait;
 
     const CREATED_AT = 'criado_em';
     const UPDATED_AT = 'atualizado_em';

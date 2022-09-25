@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Libraries\AsyncSelect\AsyncSelectTrait;
 use App\Libraries\AsyncSelect\HasAsyncSelect;
+use App\Libraries\Contato\ContatoTrait;
+use App\Libraries\Contato\HasContato;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -12,9 +14,12 @@ use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Fornecedor extends Model implements HasMedia, HasAsyncSelect
+class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
 {
-    use InteractsWithMedia, SoftDeletes, AsyncSelectTrait;
+    use InteractsWithMedia,
+        SoftDeletes,
+        AsyncSelectTrait,
+        ContatoTrait;
 
     const CREATED_AT = 'criado_em';
     const UPDATED_AT = 'atualizado_em';

@@ -16,29 +16,31 @@
                 </div>
             </div>
 
-            <div class="col-12">
-                <div class="card h-100 rounded-3">
-                    <div class="card-header py-3 px-4">
-                        <span class="h6">Editar</span>
-                    </div>
+            {!! Form::model($fornecedor, ['url' => route('painel.fornecedores.update', [$fornecedor]), 'class' => 'row g-4 needs-validation', 'novalidate', 'method' => 'put']) !!}
+                <div class="col-12">
+                    <div class="card h-100 rounded-3">
+                        <div class="card-header py-3 px-4">
+                            <span class="h6">Editar</span>
+                        </div>
 
-                    <div class="card-body px-4">
-                        {!! Form::model($fornecedor, ['url' => route('painel.fornecedores.update', [$fornecedor]), 'class' => 'row g-4 needs-validation', 'novalidate', 'method' => 'put']) !!}
+                        <div class="card-body px-4">
                             @include('painel.fornecedores.partials._form')
 
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-success rounded-pill px-4">Salvar</button>
                             </div>
-                        {!! Form::close() !!}
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <x-form.contatos />
+            {!! Form::close() !!}
         </div>
     </div>
 
     <x-slot:javascripts>
         <script>
-            var MODEL = @json($fornecedor, JSON_UNESCAPED_UNICODE);
+            var MODEL = @json(react_model($fornecedor), JSON_UNESCAPED_UNICODE);
             var ERRORS = @json(react_error(), JSON_UNESCAPED_UNICODE);
         </script>
         @vite('resources/js/painel/fornecedores/editar.jsx')

@@ -2,6 +2,7 @@ import { h, render } from 'preact';
 import AsyncSelectOne from '../lib/AsyncSelectOne';
 import CnpjInput from '../lib/CnpjInput';
 import GeoInput from '../lib/GeoInput';
+import Contatos from '../lib/Contatos';
 
 ['agrupamento_id', 'fornecedor_tipo_id', 'cep'].forEach(elementoId => {
     const elemento = document.getElementById(elementoId);
@@ -21,3 +22,4 @@ import GeoInput from '../lib/GeoInput';
     render(<GeoInput name={name} value={value} />, elemento);
 });
 
+render(<Contatos />, document.getElementById('contatos'));

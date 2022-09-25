@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\LogAtividade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 /**
  * Função que obtém automaticamente os campos que foram alterados
@@ -34,6 +36,29 @@ function auditor(Model $model = null): Closure
     };
 }
 
+
+/**
+ * Função que obtém automaticamente os campos que foram alterados
+ *
+ * @param Model $model Model aonde foi realizada a alteração
+ * @return Closure
+ */
+function react_model(Model|array $model = [], $except = []): array
+{
+    if ($model instanceof Model) {
+        $model = $model->toArray();
+    }
+
+    $request = request();
+    if ($request->hasSession()) {
+        $oldInput = Arr::except(
+            request()->session()->get('_old_input', []),
+            array_merge($except, ['_method', '_token'])
+        );
+    }
+
+    return array_merge($model, $oldInput);
+}
 
 /**
  * Função que obtém automaticamente os campos que foram alterados

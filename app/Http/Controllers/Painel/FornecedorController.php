@@ -7,10 +7,10 @@ use App\Http\Controllers\Painel\Controller;
 use App\Http\Requests\Painel\Fornecedor\FornecedorStoreRequest;
 use App\Http\Requests\Painel\Fornecedor\FornecedorUpdateRequest;
 use App\Models\Agrupamento;
+use App\Models\Cep;
 use App\Models\Fornecedor;
 use App\Models\FornecedorTipo;
-use Illuminate\Http\Request;
-use App\Models\Cep;
+use Illuminate\Support\Facades\DB;
 
 class FornecedorController extends Controller
 {
@@ -26,6 +26,8 @@ class FornecedorController extends Controller
 
     public function store(FornecedorStoreRequest $request)
     {
+        DB::beginTransaction();
+
         $fornecedor = Fornecedor::create($request->only([
             'cnpj',
             'url',
@@ -40,6 +42,11 @@ class FornecedorController extends Controller
             'avaliacao_ate',
             'pago_ate'
         ]));
+
+        $contatos = $request->input('contatos', []);
+        $fornecedor->contatos()->createMany($contatos);
+
+        DB::commit();
 
         activity()
             ->event('painel.fornecedor')
@@ -58,6 +65,8 @@ class FornecedorController extends Controller
 
     public function update(Fornecedor $fornecedor, FornecedorUpdateRequest $request)
     {
+        DB::beginTransaction();
+
         $fornecedor->fill($request->only([
             'cnpj',
             'url',
@@ -73,6 +82,12 @@ class FornecedorController extends Controller
             'pago_ate'
         ]));
         $fornecedor->save();
+
+        $contatos = $request->input('contatos', []);
+        $fornecedor->contatos()->delete();
+        $fornecedor->contatos()->createMany($contatos);
+
+        DB::commit();
 
         activity()
             ->event('painel.fornecedor')
