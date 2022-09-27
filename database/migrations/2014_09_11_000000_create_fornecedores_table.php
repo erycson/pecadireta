@@ -54,10 +54,6 @@ return new class extends Migration
             $table->timestamp('removido_em', 0)->nullable();
         });
 
-        Schema::table('usuarios', function (Blueprint $table) {
-            $table->foreignIdFor(Fornecedor::class)->nullable()->after('id')->references('id')->on('fornecedores')->nullOnDelete()->cascadeOnUpdate();
-        });
-
         $agrupamento = Agrupamento::create(['slug' => 'brasilwagen', 'nome' => 'Brasilwagen']);
 
         $fornecedorTipo = FornecedorTipo::create(['nome' => 'Concessionária']);
@@ -88,13 +84,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('usuarios', function (Blueprint $table) {
-            $table->dropForeign(['fornecedor_id']);
-        });
-        Schema::table('usuarios', function (Blueprint $table) {
-            $table->dropColumn('fornecedor_id');
-        });
-
         Schema::dropIfExists('fornecedores');
         Schema::dropIfExists('fornecedor_tipos');
         Schema::dropIfExists('agrupamentos');

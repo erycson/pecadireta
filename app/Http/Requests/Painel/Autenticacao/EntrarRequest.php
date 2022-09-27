@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Libraries\Usuario\TipoUsuario;
 
 class EntrarRequest extends FormRequest
 {
@@ -45,7 +46,13 @@ class EntrarRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->senha], $this->boolean('remember'))) {
+        $authResult = Auth::attempt([
+            'email'    => $this->email,
+            'password' => $this->senha,
+            'tipo'     => TipoUsuario::Adminstrador
+        ], $this->boolean('remember'));
+
+        if (!$authResult) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

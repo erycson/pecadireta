@@ -49,7 +49,7 @@ function Contato({ id, tipo, contato, descricao, ordem, onRemove }) {
 
     return (
         <div class="row g-3 g-lg-4 mb-3 mb-lg-4 align-items-bottom">
-            <div class="col-lg">
+            <div class="col-lg-2">
                 <label class="form-label">Tipo de Contato</label>
                 <select class={`form-select w-100 ${ERRORS[`contatos.${id}.tipo`] && 'is-invalid'}`} name={`contatos[${id}][tipo]`} value={tipoVal} onChange={(e) => ontTipoChange(e.target.value)}>
                     <option value="">Selecione</option>
@@ -68,7 +68,7 @@ function Contato({ id, tipo, contato, descricao, ordem, onRemove }) {
                 <input type="hidden" name={`contatos[${id}][contato]`} value={contatoVal} />
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <label class="form-label">Descrição</label>
                 <input type="text" class={`form-control ${ERRORS[`contatos.${id}.descricao`] && 'is-invalid'}`} name={`contatos[${id}][descricao]`} value={descricaoVal} onChange={(e) => setDescricao(e.target.value)} />
                 <InputFeedback for={`contatos.${id}.descricao`} />

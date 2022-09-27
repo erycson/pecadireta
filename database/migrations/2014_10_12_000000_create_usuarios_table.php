@@ -1,10 +1,12 @@
 <?php
 
+use App\Libraries\Usuario\TipoUsuario;
+use App\Models\Fornecedor;
+use App\Models\Usuario;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -17,6 +19,8 @@ return new class extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Fornecedor::class)->nullable()->references('id')->on('fornecedores')->nullOnDelete()->cascadeOnUpdate();
+            $table->string('tipo', 20);
             $table->string('nome');
             $table->string('email')->unique();
             $table->timestamp('verificado_em', 0)->nullable();
@@ -28,6 +32,7 @@ return new class extends Migration
         });
 
         Usuario::create([
+            'tipo' => TipoUsuario::Adminstrador,
             'email' => 'egdn2004@gmail.com',
             'nome' => 'Érycson Nóbrega',
             'senha' => Hash::make('12345678'),

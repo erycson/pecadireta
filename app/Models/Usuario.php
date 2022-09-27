@@ -34,6 +34,7 @@ class Usuario extends Authenticatable implements HasAsyncSelect, HasContato
      * @var array<int, string>
      */
     protected $fillable = [
+        'tipo',
         'nome',
         'fornecedor_id',
         'email',
