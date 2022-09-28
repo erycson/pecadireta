@@ -26,6 +26,7 @@
         "react-input-mask": "^2.0.4",
         "react-select": "^5.4.0",
         "sass": "^1.54.9",
+        "swiper": "^8.4.2",
         "vite": "^3.0.0"
     }
 }

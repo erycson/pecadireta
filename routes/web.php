@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('painel')->name('painel.')->middleware('web')->group(function () {
     require __DIR__ . '/web.painel.php';
 });
-// Route::name('website.')->group(function () {
-//     require __DIR__ . '/website.php';
-// });
+Route::name('website.')->middleware('web')->group(function () {
+    require __DIR__ . '/web.website.php';
+});

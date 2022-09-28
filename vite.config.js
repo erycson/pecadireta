@@ -13,6 +13,10 @@ export default defineConfig({
                 'resources/js/painel/modelos/editar.jsx',
                 'resources/js/painel/usuarios/editar.jsx',
                 'resources/js/painel/fornecedores/editar.jsx',
+
+                'resources/css/website/global.scss',
+                'resources/js/website/global.js',
+                'resources/js/website/home/index.jsx',
             ],
             buildDirectory: 'build',
             refresh: true,
