@@ -80,6 +80,11 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
         return $this->belongsTo(Cep::class);
     }
 
+    public function pecas()
+    {
+        return $this->hasMany(Peca::class);
+    }
+
     protected function geolocalizacao(): Attribute
     {
         return Attribute::make(

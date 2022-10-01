@@ -4,78 +4,17 @@
 
     <div class="swiper swiper-partners mb-4">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/eurobike.jpg') }}" class="img-fluid" />
-                        </a>
+            @foreach ($parceiros as $parceiro)
+                <div class="swiper-slide">
+                    <div class="square">
+                        <div class="content p-3">
+                            <a href="#" class="stretched-link grayscale-link">
+                                <img src="{{ $parceiro->getFirstMediaUrl('logo') }}" class="img-fluid" />
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/vigorito.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/eurobike.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/vigorito.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/eurobike.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/vigorito.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/eurobike.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="square">
-                    <div class="content p-3">
-                        <a href="#" class="stretched-link grayscale-link">
-                            <img src="{{ Vite::asset('resources/img/website/partnes/vigorito.jpg') }}" class="img-fluid" />
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <div class="d-flex justify-content-center py-3">

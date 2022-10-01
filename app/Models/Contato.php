@@ -9,7 +9,7 @@ use Spatie\EloquentSortable\SortableTrait;
 
 class Contato extends Model implements Sortable
 {
-    use  SortableTrait;
+    use SortableTrait;
 
     const CREATED_AT = 'criado_em';
     const UPDATED_AT = 'atualizado_em';
