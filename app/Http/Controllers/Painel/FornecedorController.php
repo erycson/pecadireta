@@ -66,7 +66,7 @@ class FornecedorController extends Controller
 
     public function edit(Fornecedor $fornecedor)
     {
-        $fornecedor->loadMissing(['tipo', 'agrupamento']);
+        $fornecedor->loadMissing(['contatos', 'tipo', 'agrupamento']);
         return view('painel.fornecedores.edit', compact('fornecedor'));
     }
 

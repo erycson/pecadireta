@@ -30,7 +30,7 @@ class ContatoInput extends Component {
         } else if (tipo == 'telefone') {
             return <InputMask class={cssClass} value={value} onChange={onChange} mask="(99) 9999-9999" maskChar="_" />;
         } else if (tipo == 'celular' || tipo == 'whatsapp') {
-            return <InputMask class={cssClass} value={value} onChange={onChange} mask="(99) 9.9999-9999" maskChar="_" />;
+            return <InputMask class={cssClass} value={value} onChange={onChange} mask="(99) 99999-9999" maskChar="_" />;
         } else {
             return <input type="text" class={cssClass} disabled />;
         }
