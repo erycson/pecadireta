@@ -4,7 +4,7 @@ import CnpjInput from '../lib/CnpjInput';
 import GeoInput from '../lib/GeoInput';
 import Contatos from '../lib/Contatos';
 
-['agrupamento_id', 'fornecedor_tipo_id', 'cep'].forEach(elementoId => {
+['agrupamento_id', 'fornecedor_tipo_id', 'cep_id'].forEach(elementoId => {
     const elemento = document.getElementById(elementoId);
     const {value, url, name} = elemento.dataset;
     render(<AsyncSelectOne value={JSON.parse(value)} url={url} name={name} />, elemento);
