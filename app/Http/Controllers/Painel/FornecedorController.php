@@ -43,6 +43,13 @@ class FornecedorController extends Controller
             'pago_ate'
         ]));
 
+        if ($request->hasFile('arquivo')) {
+            $file_ext = $request->arquivo->extension();
+            $file_md5 = md5_file($request->arquivo->path());
+            $file_name = "{$file_md5}.{$file_ext}";
+            $fornecedor->addMediaFromRequest('arquivo')->usingName($file_name)->usingFileName($file_name)->toMediaCollection('logo');
+        }
+
         $contatos = $request->input('contatos', []);
         $fornecedor->contatos()->createMany($contatos);
 
@@ -82,6 +89,17 @@ class FornecedorController extends Controller
             'pago_ate'
         ]));
         $fornecedor->save();
+
+        if ($request->hasFile('arquivo')) {
+            if ($fornecedor->logo) {
+                $fornecedor->logo->delete();
+            }
+
+            $file_ext = $request->arquivo->extension();
+            $file_md5 = md5_file($request->arquivo->path());
+            $file_name = "{$file_md5}.{$file_ext}";
+            $fornecedor->addMediaFromRequest('arquivo')->usingName($file_name)->usingFileName($file_name)->toMediaCollection('logo');
+        }
 
         $contatos = $request->input('contatos', []);
         $fornecedor->contatos()->delete();

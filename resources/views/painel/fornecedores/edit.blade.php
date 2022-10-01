@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            {!! Form::model($fornecedor, ['url' => route('painel.fornecedores.update', [$fornecedor]), 'class' => 'row g-4 needs-validation', 'novalidate', 'method' => 'put']) !!}
+            {!! Form::model($fornecedor, ['url' => route('painel.fornecedores.update', [$fornecedor]), 'class' => 'row g-4 needs-validation', 'novalidate', 'method' => 'put', 'files' => true]) !!}
                 <div class="col-12">
                     <div class="card h-100 rounded-3">
                         <div class="card-header py-3 px-4">

@@ -2,6 +2,12 @@
 
 <div class="row g-3 g-lg-4 mb-3 mb-lg-4">
     <div class="col-lg-4">
+        <x-label for="arquivo" class="form-label" value="Arquivo" />
+        <x-form.file class="form-control" name="arquivo" />
+        <x-form.feedback for="arquivo" />
+    </div>
+
+    <div class="col-lg-4">
         <x-label for="agrupamento_id" class="form-label" value="Agrupamento" />
         <x-form.async-select :model="$fornecedor->agrupamento ?? null" route="painel.fornecedores.agrupamentos" name="agrupamento_id" />
         <x-form.feedback for="agrupamento_id" />
@@ -38,9 +44,9 @@
     </div>
 
     <div class="col-lg-4">
-        <x-label for="cep" class="form-label" value="CEP" />
-        <x-form.async-select :model="$fornecedor->cep ?? null" route="painel.fornecedores.ceps" name="cep" />
-        <x-form.feedback for="cep" />
+        <x-label for="cep_id" class="form-label" value="CEP" />
+        <x-form.async-select :model="$fornecedor->cep ?? null" route="painel.fornecedores.ceps" name="cep_id" />
+        <x-form.feedback for="cep_id" />
     </div>
 
     <div class="col-lg-4">

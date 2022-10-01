@@ -27,6 +27,7 @@ class FornecedorStoreRequest extends FormRequest
     public function rules()
     {
         return array_merge([
+            'arquivo'                  => 'nullable|image',
             'cnpj'                     => 'required|string|cnpj|unique:fornecedores,cnpj',
             'url'                      => 'required|string|url|max:255',
             'agrupamento_id'           => 'nullable|exists:agrupamentos,id',

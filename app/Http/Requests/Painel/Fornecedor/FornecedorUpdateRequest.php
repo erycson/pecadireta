@@ -28,6 +28,7 @@ class FornecedorUpdateRequest extends FormRequest
     {
         $fornecedorId = $this->fornecedor->id;
         return array_merge([
+            'arquivo'                  => 'nullable|image',
             'cnpj'                     => "required|string|cnpj|unique:fornecedores,cnpj,{$fornecedorId}",
             'url'                      => 'required|string|url|max:255',
             'agrupamento_id'           => 'nullable|exists:agrupamentos,id',

@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            {!! Form::open(['url' => route('painel.fornecedores.store'), 'class' => 'row g-4 needs-validation', 'novalidate']) !!}
+            {!! Form::open(['url' => route('painel.fornecedores.store'), 'class' => 'row g-4 needs-validation', 'novalidate', 'files' => true]) !!}
                 <div class="col-12">
                     <div class="card h-100 rounded-3">
                         <div class="card-header py-3 px-4">
