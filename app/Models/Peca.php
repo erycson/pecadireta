@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Peca\TipoPeca;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Searchable;
@@ -20,6 +21,7 @@ class Peca extends Model
         'nome',
         'estoque',
         'preco',
+        'tipo_peca',
     ];
 
     protected $casts = [
@@ -29,6 +31,7 @@ class Peca extends Model
         'estoque' => 'int',
         'preco' => 'float',
         'versao' => 'string',
+        'tipo_peca' => TipoPeca::class,
     ];
 
     public function marca()

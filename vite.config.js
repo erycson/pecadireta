@@ -17,6 +17,7 @@ export default defineConfig({
                 'resources/css/website/global.scss',
                 'resources/js/website/global.js',
                 'resources/js/website/home/index.jsx',
+                'resources/js/website/procurar/index.jsx',
             ],
             buildDirectory: 'build',
             refresh: true,

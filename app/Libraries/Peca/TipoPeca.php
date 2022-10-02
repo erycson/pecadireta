@@ -9,4 +9,14 @@ enum TipoPeca: string
     case Original = 'original';
     case After = 'after';
     case Reuso = 'reuso';
+
+    public function label(): string {
+        return match ($this) {
+            self::Alternativa => 'Alternativa',
+            self::Genuina => 'Genuína',
+            self::Original => 'Original',
+            self::After => 'After',
+            self::Reuso => 'Reuso',
+        };
+    }
 }

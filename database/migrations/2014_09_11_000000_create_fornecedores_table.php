@@ -49,6 +49,7 @@ return new class extends Migration
             $table->geometry('geolocalizacao')->nullable();
             $table->date('avaliacao_ate')->nullable();
             $table->date('pago_ate')->nullable();
+            $table->timestamp('estoque_atualizado_em', 0)->nullable();
             $table->timestamp('criado_em', 0);
             $table->timestamp('atualizado_em', 0);
             $table->timestamp('removido_em', 0)->nullable();

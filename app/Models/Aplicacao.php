@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Peca\TipoVeiculo;
 use Illuminate\Database\Eloquent\Model;
 
 class Aplicacao extends Model
@@ -16,7 +17,6 @@ class Aplicacao extends Model
         'ano_de',
         'ano_ate',
         'tipo_veiculo',
-        'tipo_peca',
     ];
 
     protected $casts = [
@@ -24,8 +24,7 @@ class Aplicacao extends Model
         'modelo_id' => 'int',
         'ano_de' => 'int',
         'ano_ate' => 'int',
-        'tipo_veiculo' => 'string',
-        'tipo_peca' => 'string',
+        'tipo_veiculo' => TipoVeiculo::class,
     ];
 
     public function peca()

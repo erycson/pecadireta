@@ -39,11 +39,13 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
         'geolocalizacao',
         'pago_ate',
         'avaliacao_ate',
+        'estoque_atualizado_em',
     ];
 
     protected $casts = [
-        'pago_ate'      => 'datetime',
-        'avaliacao_ate' => 'datetime',
+        'pago_ate'              => 'datetime',
+        'avaliacao_ate'         => 'datetime',
+        'estoque_atualizado_em' => 'datetime',
     ];
 
     public function __construct($attributes = array())
@@ -89,6 +91,28 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
     {
         return Attribute::make(
             set: fn($value) => DB::raw(sprintf('geography::Point(%f, %f, 4326)', $value['latitude'], $value['longitude'])),
+        );
+    }
+
+    protected function atualizacaoCss(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => match ($this->estoque_atualizado_em->diffInDaysFiltered(fn ($date) => !$date->isWeekend(), now())) {
+                0, 1 => 'text-success',
+                2, 3 => 'text-warning',
+                default => 'text-danger',
+            }
+        );
+    }
+
+    protected function atualizacaoLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => match ($this->estoque_atualizado_em->diffInDaysFiltered(fn ($date) => !$date->isWeekend(), now())) {
+                0, 1 => 'Atualizada',
+                2, 3 => 'Vencendo',
+                default => 'Desatualizada',
+            }
         );
     }
 }

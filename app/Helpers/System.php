@@ -89,6 +89,11 @@ function fmt_money(float $value): string
     return number_format($value, 2, ',', '.');
 }
 
+function fmt_integer(int $value): string
+{
+    return number_format($value, 0, '', '.');
+}
+
 /**
  * Função que obtém automaticamente os campos que foram alterados
  *
