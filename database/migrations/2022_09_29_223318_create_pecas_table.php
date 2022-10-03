@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('tipo_peca')->nullable();
             $table->string('sku');
             $table->string('nome');
+            $table->boolean('absoleta')->default(false);
             $table->unsignedInteger('estoque');
             $table->unsignedDecimal('preco', 10, 2);
             $table->char('versao', 8);
