@@ -9,7 +9,7 @@
                 <h2 class="text-white mb-4 text-center px-5">Localize a peça que você precisa</h2>
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
-                        {!! Form::open(['url' => route('website.procurar'), 'class' => 'bg-white bg-opacity-15 blur rounded-4 p-3 p-lg-5', 'novalidate', 'method' => 'get']) !!}
+                        {!! Form::open(['url' => route('website.procurar.index'), 'class' => 'bg-white bg-opacity-15 blur rounded-4 p-3 p-lg-5', 'novalidate', 'method' => 'get']) !!}
                             <div class="input-group">
                                 {!! Form::text('q', null, ['class' => 'form-control form-control-lg border-0', 'placeholder' => 'Digite o código ou descrição da peça', 'aria-describedb' => 'Digite o código ou descrição da peça']) !!}
                                 {!! Form::submit('Buscar', ['class' => 'btn btn-lg btn-primary px-4']) !!}

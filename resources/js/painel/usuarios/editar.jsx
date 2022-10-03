@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
-import AsyncSelectOne from '../lib/AsyncSelectOne';
-import Contatos from '../lib/Contatos';
+import AsyncSelectOne from '../../lib/AsyncSelectOne';
+import Contatos from '../../lib/Contatos';
 
 ['fornecedor_id'].forEach(elementoId => {
     const elemento = document.getElementById(elementoId);

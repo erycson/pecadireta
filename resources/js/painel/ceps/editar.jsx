@@ -1,5 +1,5 @@
 import { h, render } from 'preact';
-import CepInput from '../lib/CepInput';
+import CepInput from '../../lib/CepInput';
 
 ['cep'].forEach(elementoId => {
     const elemento = document.getElementById(elementoId);

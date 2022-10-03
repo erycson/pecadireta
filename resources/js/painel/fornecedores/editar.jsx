@@ -1,8 +1,8 @@
 import { h, render } from 'preact';
-import AsyncSelectOne from '../lib/AsyncSelectOne';
-import CnpjInput from '../lib/CnpjInput';
-import GeoInput from '../lib/GeoInput';
-import Contatos from '../lib/Contatos';
+import AsyncSelectOne from '../../lib/AsyncSelectOne';
+import CnpjInput from '../../lib/CnpjInput';
+import GeoInput from '../../lib/GeoInput';
+import Contatos from '../../lib/Contatos';
 
 ['agrupamento_id', 'fornecedor_tipo_id', 'cep_id'].forEach(elementoId => {
     const elemento = document.getElementById(elementoId);

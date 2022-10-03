@@ -77,28 +77,47 @@ class Peca extends Model
         return 'idx_pecas';
     }
 
-    #[SearchUsingFullText(['marca_nome', 'fornecedor_nome', 'peca_sku', 'peca_nome'])]
+    public function getScoutKeyName()
+    {
+        return 'id';
+    }
+
+    #[SearchUsingFullText(['nome', 'sku', 'marca_nome', 'fornecedor_nome', 'aplicacoes.modelo_nome', 'aplicacoes.montadora_nome'])]
     public function toSearchableArray()
     {
-        $this->loadMissing(['marca', 'fornecedor', 'aplicacoes']);
+        $this->loadMissing(['marca', 'fornecedor', 'fornecedor.cep', 'aplicacoes', 'aplicacoes.modelo', 'aplicacoes.modelo.montadora']);
 
         return [
+            'id'            => $this->id,
+            'sku'           => $this->sku,
+            'nome'          => $this->nome,
+            'estoque'       => $this->estoque,
+            'preco'         => $this->preco,
+            'tipo_peca'     => $this->tipo_peca->value,
+            'atualizado_em' => $this->fornecedor->estoque_atualizado_em,
+
             'marca_id'        => $this->marca->id,
             'marca_nome'      => $this->marca->nome,
             'fornecedor_id'   => $this->fornecedor->id,
             'fornecedor_nome' => $this->fornecedor->nome_fantasia,
-            'peca_id'         => $this->id,
-            'peca_sku'        => $this->sku,
-            'peca_nome'       => $this->nome,
-            'peca_estoque'    => $this->estoque,
-            'peca_preco'      => $this->preco,
+            'fornecedor_tipo' => $this->fornecedor->fornecedor_tipo_id,
+            'uf'              => $this->fornecedor->cep->uf,
+            'municipio'       => $this->fornecedor->cep->municipio,
+            'cep'             => $this->fornecedor->cep->cep,
+
+            'montadoras'     => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo->montadora->id)->toArray(),
+            'modelos'        => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo->id)->toArray(),
+            'tipos_veiculos' => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->tipo_veiculo->value)->toArray(),
+
             'aplicacoes'      => $this->aplicacoes->map(fn ($aplicacao) => [
-                'modelo_id'    => $aplicacao->modelo_id,
-                'ano_de'       => $aplicacao->ano_de,
-                'ano_ate'      => $aplicacao->ano_ate,
-                'tipo_veiculo' => $aplicacao->tipo_veiculo,
-                'tipo_peca'    => $aplicacao->tipo_peca,
-            ]),
+                'modelo_id'      => $aplicacao->modelo->id,
+                'modelo_nome'    => $aplicacao->modelo->nome,
+                'montadora_id'   => $aplicacao->modelo->montadora->id,
+                'montadora_nome' => $aplicacao->modelo->montadora->nome,
+                'ano_de'         => $aplicacao->ano_de,
+                'ano_ate'        => $aplicacao->ano_ate,
+                'tipo_veiculo'   => $aplicacao->tipo_veiculo->value,
+            ])->toArray(),
         ];
     }
 }

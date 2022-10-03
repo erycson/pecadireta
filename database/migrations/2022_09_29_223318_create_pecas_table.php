@@ -5,14 +5,21 @@ use App\Libraries\Peca\TipoVeiculo;
 use App\Models\Fornecedor;
 use App\Models\Marca;
 use App\Models\Modelo;
-use App\Models\Montadora;
 use App\Models\Peca;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use MeiliSearch\Client;
 
 return new class extends Migration
 {
+    private Client $client;
+
+    public function __construct()
+    {
+        $this->client = new Client(env('MEILISEARCH_HOST'), env('MEILISEARCH_KEY'));
+    }
+
     /**
      * Run the migrations.
      *
@@ -78,6 +85,27 @@ return new class extends Migration
         $peca = Peca::create(['marca_id' => $m4->id, 'fornecedor_id' => 1, 'sku' => 'WR328', 'nome' => 'FILTRO DE AR', 'estoque' => 26, 'preco' => 97.35, 'tipo_peca' => TipoPeca::Original]);
         $peca->aplicacoes()->create(['modelo_id' => 5399, 'ano_de' => 2013, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
         $peca->aplicacoes()->create(['modelo_id' => 5500, 'ano_de' => 2014, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
+
+        $this->client->index('idx_pecas')->updateSortableAttributes([
+            'fornecedor_nome',
+            'nome',
+            'estoque',
+            'preco',
+            'atualizado_em',
+        ]);
+        $this->client->index('idx_pecas')->updateFilterableAttributes([
+            'tipos_veiculos',
+            'montadoras',
+            'modelos',
+            'atualizado_em',
+
+            'uf',
+            'municipio',
+            'cep',
+
+            'fornecedor_tipo',
+            'tipo_peca',
+        ]);
 }
 
     /**
