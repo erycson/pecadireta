@@ -82,6 +82,9 @@ class ProcurarScout extends DataTable
                             'vencendo'      => '(atualizado_dias = 2 OR atualizado_dias = 3)',
                             'desatualziada' => 'atualizado_dias > 4',
                         };
+                    } elseif ($filtro == 'cep') {
+                        $valor = str_pad(preg_replace('/[^0-9]+/', '', $valor), 8, '0', STR_PAD_LEFT);
+                        return sprintf("%s = '%s'", $filtro, $valor);
                     } else {
                         return sprintf("%s = '%s'", $filtro, $valor);
                     }
