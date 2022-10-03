@@ -121,7 +121,6 @@ class ProcurarScout extends DataTable
     {
         $className = strtolower((new \ReflectionClass($this))->getShortName());
 
-
         return $this->builder()
                     ->setTableId($className . '-table')
                     ->columns($this->getColumns())
@@ -136,7 +135,7 @@ class ProcurarScout extends DataTable
                         'drawCallback' => $this->onDrawCallback(),
                         'initComplete' => $this->initComplete()
                     ])
-                    ->orderBy(1, 'asc');
+                    ->orderBy(4, 'asc');
     }
 
     protected function getAjaxParams(): string
@@ -185,7 +184,7 @@ class ProcurarScout extends DataTable
 
     protected function getFornecedorTitle(): string
     {
-        $tipos = FornecedorTipo::all()->map(fn($tipo) =><<<HTML
+        $tipos = FornecedorTipo::all()->map(fn($tipo) => <<<HTML
             <div class="col">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="fornecedor_tipo" value="{$tipo->id}">
@@ -205,6 +204,12 @@ class ProcurarScout extends DataTable
                         </button>
                         <div class="dropdown-menu py-2 px-3 fw-normal border-light shadow-sm" data-popper-placement="bottom-start">
                             <form class="row flex-column">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="fornecedor_tipo" value="">
+                                        <label class="form-check-label small">Todos</label>
+                                    </div>
+                                </div>
                                 {$tipos}
                             </form>
                         </div>
