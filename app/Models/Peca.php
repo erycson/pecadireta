@@ -110,15 +110,15 @@ class Peca extends Model
             'modelos'        => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo->id)->toArray(),
             'tipos_veiculos' => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->tipo_veiculo->value)->toArray(),
 
-            'aplicacoes'      => $this->aplicacoes->map(fn ($aplicacao) => [
-                'modelo_id'      => $aplicacao->modelo->id,
-                'modelo_nome'    => $aplicacao->modelo->nome,
-                'montadora_id'   => $aplicacao->modelo->montadora->id,
-                'montadora_nome' => $aplicacao->modelo->montadora->nome,
-                'ano_de'         => $aplicacao->ano_de,
-                'ano_ate'        => $aplicacao->ano_ate,
-                'tipo_veiculo'   => $aplicacao->tipo_veiculo->value,
-            ])->toArray(),
+            // 'aplicacoes'      => $this->aplicacoes->map(fn ($aplicacao) => [
+            //     'modelo_id'      => $aplicacao->modelo->id,
+            //     'modelo_nome'    => $aplicacao->modelo->nome,
+            //     'montadora_id'   => $aplicacao->modelo->montadora->id,
+            //     'montadora_nome' => $aplicacao->modelo->montadora->nome,
+            //     'ano_de'         => $aplicacao->ano_de,
+            //     'ano_ate'        => $aplicacao->ano_ate,
+            //     'tipo_veiculo'   => $aplicacao->tipo_veiculo->value,
+            // ])->toArray(),
         ];
     }
 }
