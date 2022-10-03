@@ -26,7 +26,7 @@ class ContatoInput extends Component {
         const cssClass = `form-control ${ERRORS[this.props.for] && 'is-invalid'}`;
 
         if (tipo == 'email') {
-            return <input type="email" class={cssClass} name="contatos[][contato]" value={value} onChange={onChange}/>;
+            return <input type="email" class={cssClass} value={value} onChange={onChange}/>;
         } else if (tipo == 'telefone') {
             return <InputMask class={cssClass} value={value} onChange={onChange} mask="(99) 9999-9999" maskChar="_" />;
         } else if (tipo == 'celular' || tipo == 'whatsapp') {

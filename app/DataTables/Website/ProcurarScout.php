@@ -2,6 +2,7 @@
 
 namespace App\DataTables\Website;
 
+use App\DataTables\Painel\FornecedoresTipos;
 use App\Libraries\DataTables\ScoutDataTable;
 use App\Models\Fornecedor;
 use App\Models\FornecedorTipo;
@@ -12,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class ProcurarScout extends DataTable
 {
-
+    protected int $pageLength = 10;
     protected ScoutDataTable $scout;
 
     /**
@@ -26,6 +27,7 @@ class ProcurarScout extends DataTable
         $this->scout = new ScoutDataTable(new Model, $query, $this->getScoutOptions());
 
         return ($this->scout)
+            ->setRowClass('position-relative')
             ->editColumn('fornecedor_nome', fn ($peca) => sprintf('
                 <a href="%s" class="fw-bold link-dark stretched-link d-block">%s</a>
                 %s, %s - %s
@@ -58,10 +60,38 @@ class ProcurarScout extends DataTable
     protected function getScoutOptions()
     {
         return function (Indexes $meilisearch, $query, $options) {
-            $options['sort'] = $this->scout->getSort();
-            $options['filter'] = $this->scout->getFilter();
+            $filtros = collect($this->scout->getFilters())
+                ->only([
+                    'tipos_veiculos',
+                    'montadoras',
+                    'modelos',
+                    'atualizado_dias',
 
-            $options['limit'] = 10;
+                    'uf',
+                    'municipio',
+                    'cep',
+
+                    'fornecedor_tipo',
+                    'tipo_peca',
+                ])
+                ->map(function ($valor, $filtro) {
+                    if ($filtro == 'atualizado_dias') {
+                        return match ($valor) {
+                            'todos'         => null,
+                            'atualizada'    => '(atualizado_dias = 0 OR atualizado_dias = 1)',
+                            'vencendo'      => '(atualizado_dias = 2 OR atualizado_dias = 3)',
+                            'desatualziada' => 'atualizado_dias > 4',
+                        };
+                    } else {
+                        return sprintf("%s = '%s'", $filtro, $valor);
+                    }
+                })
+                ->filter()
+                ->join(' AND ');
+
+            $options['sort'] = $this->scout->getSort();
+            $options['filter'] = $filtros;
+            $options['limit'] = $this->pageLength;
             return $meilisearch->search($query ?? '', $options);
         };
     }
@@ -100,6 +130,7 @@ class ProcurarScout extends DataTable
                         'searching' => false,
                         'lengthChange' => false,
                         'responsive' => false,
+                        'pageLength' => $this->pageLength,
                         'paging' => true,
                         'info' => false,
                         'drawCallback' => $this->onDrawCallback(),
@@ -112,7 +143,9 @@ class ProcurarScout extends DataTable
     {
         return <<<JS
             function (data) {
-                data.filtros = FILTROS;
+                const {q, ...filtros} = FILTROS;
+                data.search.value = q || '';
+                data.filtros = filtros;
             }
         JS;
     }
@@ -373,8 +406,12 @@ class ProcurarScout extends DataTable
                 const el = $(this);
                 TABLE = el.DataTable();
 
+                $('th').attr('aria-label', '').removeClass('ps-lg-3 position-relative text-nowrap');
+                $('th:not(:last-child)').addClass('fw-normal pe-1');
+                $('th:last-child').addClass('fw-normal px-0');
+
                 $('input[name="atualizacao"]').change(function() {
-                    FILTROS.atualizado_em = $(this).val();
+                    FILTROS.atualizado_dias = $(this).val();
                     TABLE.ajax.reload();
                 });
 
@@ -391,8 +428,6 @@ class ProcurarScout extends DataTable
                 el.find('th:nth-child(1)').unbind(); // Fornecedor
                 el.find('th:nth-child(3)').unbind(); // Tipo
                 el.find('th:nth-child(6)').unbind(); // Atualização
-
-                el.find('th:nth-child(1)').unbind()
 
                 el.find('th:nth-child(1) button:last').on('click', function() {
                     const order = $(this).find('i').hasClass('bx-up-arrow-alt') ? 'desc' : 'asc';

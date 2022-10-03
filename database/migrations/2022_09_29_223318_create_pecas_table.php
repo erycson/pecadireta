@@ -98,7 +98,7 @@ return new class extends Migration
             'tipos_veiculos',
             'montadoras',
             'modelos',
-            'atualizado_em',
+            'atualizado_dias',
 
             'uf',
             'municipio',

@@ -88,13 +88,14 @@ class Peca extends Model
         $this->loadMissing(['marca', 'fornecedor', 'fornecedor.cep', 'aplicacoes', 'aplicacoes.modelo', 'aplicacoes.modelo.montadora']);
 
         return [
-            'id'            => $this->id,
-            'sku'           => $this->sku,
-            'nome'          => $this->nome,
-            'estoque'       => $this->estoque,
-            'preco'         => $this->preco,
-            'tipo_peca'     => $this->tipo_peca->value,
-            'atualizado_em' => $this->fornecedor->estoque_atualizado_em,
+            'id'              => $this->id,
+            'sku'             => $this->sku,
+            'nome'            => $this->nome,
+            'estoque'         => $this->estoque,
+            'preco'           => $this->preco,
+            'tipo_peca'       => $this->tipo_peca->value,
+            'atualizado_dias' => $this->fornecedor->atualizacaoDias,
+            'atualizado_em'   => $this->fornecedor->estoque_atualizado_em,
 
             'marca_id'        => $this->marca->id,
             'marca_nome'      => $this->marca->nome,

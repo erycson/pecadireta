@@ -94,10 +94,17 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
         );
     }
 
+    protected function atualizacaoDias(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->estoque_atualizado_em?->diffInDaysFiltered(fn ($date) => !$date->isWeekend(), now())
+        );
+    }
+
     protected function atualizacaoCss(): Attribute
     {
         return Attribute::make(
-            get: fn() => match ($this->estoque_atualizado_em->diffInDaysFiltered(fn ($date) => !$date->isWeekend(), now())) {
+            get: fn() => match ($this->atualizacaoDias) {
                 0, 1 => 'text-success',
                 2, 3 => 'text-warning',
                 default => 'text-danger',
@@ -108,7 +115,7 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
     protected function atualizacaoLabel(): Attribute
     {
         return Attribute::make(
-            get: fn() => match ($this->estoque_atualizado_em->diffInDaysFiltered(fn ($date) => !$date->isWeekend(), now())) {
+            get: fn() => match ($this->atualizacaoDias) {
                 0, 1 => 'Atualizada',
                 2, 3 => 'Vencendo',
                 default => 'Desatualizada',

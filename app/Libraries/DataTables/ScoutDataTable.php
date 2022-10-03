@@ -184,30 +184,9 @@ class ScoutDataTable extends DataTableAbstract
         return empty($this->sort) ? null : $this->sort;
     }
 
-    public function getFilter(): ?string
+    public function getFilters(): array
     {
-        $filtros = collect($this->request->input('filtros', []))
-            ->only([
-                'tipos_veiculos',
-                'montadoras',
-                'modelos',
-                'atualizado_em',
-
-                'uf',
-                'municipio',
-                'cep',
-
-                'fornecedor_tipo',
-                'tipo_peca',
-            ]);
-
-        if ($filtros->isEmpty()) {
-            return null;
-        }
-
-        return $filtros
-            ->map(fn ($valor, $filtro) => sprintf("%s = '%s'", $filtro, $valor))
-            ->join(' AND ');
+        return $this->request->input('filtros', []);
     }
 
     /**

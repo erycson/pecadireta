@@ -62,7 +62,8 @@ function FiltrosPropcurar() {
     };
 
     const onProcurar = () => {
-        TABLE.search(procurar).draw();
+        TABLE.ajax.reload();
+        // TABLE.search(procurar).draw();
     };
 
     const getMontadoraOptions = (q) =>
