@@ -60,4 +60,16 @@ class Contato extends Model implements Sortable
             }
         );
     }
+
+    protected function uri(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => match ($this->tipo) {
+                TipoContato::Email    => "mailto:{$this->contato}",
+                TipoContato::Celular  => 'tel:+55' . preg_replace('/[^0-9]+/', '', $this->contato),
+                TipoContato::Telefone => 'tel:+55' . preg_replace('/[^0-9]+/', '', $this->contato),
+                TipoContato::WhatsApp => 'https://wa.me/+55' .$this->contato,
+            }
+        );
+    }
 }

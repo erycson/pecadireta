@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Libraries\Peca\TipoPeca;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Searchable;
 
@@ -80,6 +82,20 @@ class Peca extends Model
     public function getScoutKeyName()
     {
         return 'id';
+    }
+
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => route(
+                'website.pecas.index',
+                [
+                    Str::slug($this->fornecedor->nome_fantasia),
+                    $this->id,
+                    sprintf('%s-%s', Str::slug($this->nome), Str::slug($this->sku))
+                ]
+            )
+        );
     }
 
     #[SearchUsingFullText(['nome', 'sku', 'marca_nome', 'fornecedor_nome', 'aplicacoes.modelo_nome', 'aplicacoes.montadora_nome'])]

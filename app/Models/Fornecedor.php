@@ -94,6 +94,22 @@ class Fornecedor extends Model implements HasMedia, HasAsyncSelect, HasContato
         );
     }
 
+    protected function latitude(): Attribute
+    {
+        $geo = explode(' ', trim(str_replace(['POINT', '(', ')'], '', $this->geolocalizacao)));
+        return Attribute::make(
+            get: fn() => $geo[1],
+        );
+    }
+
+    protected function longitude(): Attribute
+    {
+        $geo = explode(' ', trim(str_replace(['POINT', '(', ')'], '', $this->geolocalizacao)));
+        return Attribute::make(
+            get: fn() => $geo[0],
+        );
+    }
+
     protected function atualizacaoDias(): Attribute
     {
         return Attribute::make(

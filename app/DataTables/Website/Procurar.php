@@ -2,15 +2,20 @@
 
 namespace App\DataTables\Website;
 
+use App\DataTables\Painel\FornecedoresTipos;
+use App\Libraries\DataTables\ScoutDataTable;
 use App\Models\Fornecedor;
 use App\Models\FornecedorTipo;
+use App\Models\Peca as Model;
+use MeiliSearch\Endpoints\Indexes;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-use App\Models\Peca as Model;
-
 class Procurar extends DataTable
 {
+    protected int $pageLength = 10;
+    protected ScoutDataTable $scout;
+
     /**
      * Build DataTable class.
      *
@@ -19,31 +24,79 @@ class Procurar extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query)
-            ->editColumn('fornecedor.nome_fantasia', fn ($peca) => sprintf('
-                <a href="%s" class="fw-bold link-dark stretched-link d-block">%s</a>
+        $this->scout = new ScoutDataTable(new Model, $query, $this->getScoutOptions());
+
+        return ($this->scout)
+            ->setRowClass('position-relative')
+            ->editColumn('fornecedor_nome', fn ($peca) => sprintf('
+                <a href="%s" target="_blank" class="fw-bold link-dark stretched-link d-block">%s</a>
                 %s, %s - %s
-            ', '#', $peca->fornecedor->nome_fantasia, $peca->fornecedor->cep->bairro, $peca->fornecedor->cep->municipio, $peca->fornecedor->cep->uf))
+            ', $peca->url, $peca->fornecedor->nome_fantasia, $peca->fornecedor->cep->bairro, $peca->fornecedor->cep->municipio, $peca->fornecedor->cep->uf))
             ->editColumn('nome', fn ($peca) => sprintf('<strong class="d-block">%s</strong> %s', $peca->sku, $peca->nome))
             ->editColumn('preco', fn ($peca) => $this->getPrecoContents($peca))
             ->editColumn('estoque', fn ($peca) => fmt_integer($peca->estoque))
             ->editColumn('tipo_peca', fn ($peca) => $peca->tipo_peca->label())
-            ->editColumn('fornecedor.estoque_atualizado_em', fn ($peca) => $peca->fornecedor->estoque_atualizado_em ? sprintf('
-                %s
-                <span class="%s d-flex align-items-center">
-                    <i class="bx bx-info-circle bx-xs me-1"></i>
-                    %s
-                </span>
-            ', $peca->fornecedor->estoque_atualizado_em->format('d/m/Y'), $peca->fornecedor->atualizacaoCss, $peca->fornecedor->atualizacaoLabel) : '')
+            ->editColumn('atualizado_em', fn ($peca) =>
+                $peca->fornecedor->estoque_atualizado_em
+                    ? sprintf('
+                        %s
+                        <span class="%s d-flex align-items-center">
+                            <i class="bx bx-info-circle bx-xs me-1"></i>
+                            %s
+                        </span>
+                    ', $peca->fornecedor->estoque_atualizado_em->format('d/m/Y'), $peca->fornecedor->atualizacaoCss, $peca->fornecedor->atualizacaoLabel)
+                    : ''
+            )
             ->addColumn('contato', fn ($peca) => $this->getContatoContents($peca->fornecedor))
             ->rawColumns([
                 'contato',
                 'preco',
-                'fornecedor.nome_fantasia',
+                'fornecedor_nome',
                 'nome',
-                'fornecedor.estoque_atualizado_em'
+                'atualizado_em'
             ]);
+    }
+
+    protected function getScoutOptions()
+    {
+        return function (Indexes $meilisearch, $query, $options) {
+            $filtros = collect($this->scout->getFilters())
+                ->only([
+                    'tipos_veiculos',
+                    'montadoras',
+                    'modelos',
+                    'atualizado_dias',
+
+                    'uf',
+                    'municipio',
+                    'cep',
+
+                    'fornecedor_tipo',
+                    'tipo_peca',
+                ])
+                ->map(function ($valor, $filtro) {
+                    if ($filtro == 'atualizado_dias') {
+                        return match ($valor) {
+                            'todos'         => null,
+                            'atualizada'    => '(atualizado_dias = 0 OR atualizado_dias = 1)',
+                            'vencendo'      => '(atualizado_dias = 2 OR atualizado_dias = 3)',
+                            'desatualziada' => 'atualizado_dias > 4',
+                        };
+                    } elseif ($filtro == 'cep') {
+                        $valor = str_pad(preg_replace('/[^0-9]+/', '', $valor), 8, '0', STR_PAD_LEFT);
+                        return sprintf("%s = '%s'", $filtro, $valor);
+                    } else {
+                        return sprintf("%s = '%s'", $filtro, $valor);
+                    }
+                })
+                ->filter()
+                ->join(' AND ');
+
+            $options['sort'] = $this->scout->getSort();
+            $options['filter'] = $filtros;
+            $options['limit'] = $this->pageLength;
+            return $meilisearch->search($query ?? '', $options);
+        };
     }
 
     /**
@@ -55,7 +108,6 @@ class Procurar extends DataTable
     public function query(Model $model)
     {
         return $model->newQuery()
-            ->whereHas('fornecedor', fn($query) => $query->whereNotNull('estoque_atualizado_em'))
             ->with([
                 'fornecedor' => fn($query) => $query->whereNotNull('estoque_atualizado_em'),
                 'fornecedor.cep',
@@ -72,7 +124,6 @@ class Procurar extends DataTable
     {
         $className = strtolower((new \ReflectionClass($this))->getShortName());
 
-
         return $this->builder()
                     ->setTableId($className . '-table')
                     ->columns($this->getColumns())
@@ -81,21 +132,22 @@ class Procurar extends DataTable
                         'searching' => false,
                         'lengthChange' => false,
                         'responsive' => false,
+                        'pageLength' => $this->pageLength,
                         'paging' => true,
                         'info' => false,
                         'drawCallback' => $this->onDrawCallback(),
                         'initComplete' => $this->initComplete()
                     ])
-                    ->orderBy(1, 'asc');
+                    ->orderBy(4, 'asc');
     }
 
     protected function getAjaxParams(): string
     {
-        $query = request()->q ?? '';
-
         return <<<JS
             function (data) {
-                data.filtros = FILTROS;
+                const {q, ...filtros} = FILTROS;
+                data.search.value = q || '';
+                data.filtros = filtros;
             }
         JS;
     }
@@ -108,14 +160,14 @@ class Procurar extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('fornecedor.nome_fantasia')->addClass('fw-normal pe-1')->title($this->getFornecedorTitle())->titleAttr('Fornecedor'),
-            Column::make('nome')->addClass('fw-normal pe-1')->title($this->getNomeTitle())->titleAttr('Código / Descrição'),
-            Column::make('tipo_peca')->addClass('fw-normal pe-1')->title($this->getTipoTitle())->titleAttr('Tipo'),
-            Column::make('estoque')->addClass('fw-normal pe-1')->title($this->getEstoqueTitle())->titleAttr('Estoque'),
-            Column::make('preco')->addClass('fw-normal pe-1')->title($this->getPrecoTitle())->titleAttr('Preço'),
-            Column::make('fornecedor.estoque_atualizado_em')->addClass('fw-normal pe-1')->title($this->getAtualizacaoTitle())->titleAttr('Atualização'),
+            Column::make('fornecedor_nome')->addClass('ps-lg-3')->title($this->getFornecedorTitle())->titleAttr('Fornecedor'),
+            Column::make('nome')->title($this->getNomeTitle())->titleAttr('Código / Descrição'),
+            Column::make('tipo_peca')->addClass('text-nowrap')->title($this->getTipoTitle())->titleAttr('Tipo'),
+            Column::make('estoque')->title($this->getEstoqueTitle())->titleAttr('Estoque'),
+            Column::make('preco')->addClass('text-nowrap')->title($this->getPrecoTitle())->titleAttr('Preço'),
+            Column::make('atualizado_em')->addClass('text-nowrap')->title($this->getAtualizacaoTitle())->titleAttr('Atualização'),
             Column::computed('contato')
-                ->addClass('fw-normal px-0')
+                ->addClass('position-relative')
                 ->title($this->getContatoTitle())
                 ->sortable(false)
                 ->titleAttr('Contato'),
@@ -135,7 +187,7 @@ class Procurar extends DataTable
 
     protected function getFornecedorTitle(): string
     {
-        $tipos = FornecedorTipo::all()->map(fn($tipo) =><<<HTML
+        $tipos = FornecedorTipo::all()->map(fn($tipo) => <<<HTML
             <div class="col">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="fornecedor_tipo" value="{$tipo->id}">
@@ -155,6 +207,12 @@ class Procurar extends DataTable
                         </button>
                         <div class="dropdown-menu py-2 px-3 fw-normal border-light shadow-sm" data-popper-placement="bottom-start">
                             <form class="row flex-column">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="fornecedor_tipo" value="">
+                                        <label class="form-check-label small">Todos</label>
+                                    </div>
+                                </div>
                                 {$tipos}
                             </form>
                         </div>
@@ -190,34 +248,38 @@ class Procurar extends DataTable
                     <form class="row flex-column">
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tipo_peca" value="todos" checked>
-                                <label class="form-check-label small">
-                                    Todos
-                                </label>
+                                <input class="form-check-input" type="radio" name="tipo_peca" value="todos" checked />
+                                <label class="form-check-label small">Todos</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tipo_peca" value="genuina">
-                                <label class="form-check-label small">
-                                    Genuína
-                                </label>
+                                <input class="form-check-input" type="radio" name="tipo_peca" value="alternativa" />
+                                <label class="form-check-label small">Alternativa</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tipo_peca" value="alternativa">
-                                <label class="form-check-label small">
-                                    Alternativa
-                                </label>
+                                <input class="form-check-input" type="radio" name="tipo_peca" value="genuina" />
+                                <label class="form-check-label small">Genuína</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tipo_peca" value="reuso">
-                                <label class="form-check-label small">
-                                    Reuso
-                                </label>
+                                <input class="form-check-input" type="radio" name="tipo_peca" value="original" />
+                                <label class="form-check-label small">Original</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipo_peca" value="after" />
+                                <label class="form-check-label small">After</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipo_peca" value="reuso" />
+                                <label class="form-check-label small">Reuso</label>
                             </div>
                         </div>
                     </form>
@@ -300,14 +362,12 @@ class Procurar extends DataTable
 
     protected function getPrecoContents(Model $peca): string
     {
-        $preço = fmt_money($peca->preco);
+        $preço    = fmt_money($peca->preco);
+        $absoleta = $peca->absoleta ? '<span class="d-flex align-items-center"><i class="bx bx-timer bx-xs me-1"></i> Obsoleta</span>' : '';
 
         return <<<HTML
             R$ {$preço}
-            <span class="d-flex align-items-center">
-                <i class="bx bx-timer bx-xs me-1"></i>
-                Obsoleta
-            </span>
+            {$absoleta}
         HTML;
     }
 
@@ -319,7 +379,7 @@ class Procurar extends DataTable
 
         $contatos = $fornecedor->contatos->map(fn ($contato) => <<<HTML
             <div class="col">
-                <a href="#" class="btn btn-sm {$contato->iconeCor} d-inline-flex justify-content-center align-items-center w-100 text-nowrap">
+                <a href="{$contato->uri}" class="btn btn-sm {$contato->iconeCor} d-inline-flex justify-content-center align-items-center w-100 text-nowrap">
                     <i class="bx {$contato->iconeCss} bx-xs me-1"></i>
                     {$contato->contato}
                 </a>
@@ -352,8 +412,12 @@ class Procurar extends DataTable
                 const el = $(this);
                 TABLE = el.DataTable();
 
+                $('th').attr('aria-label', '').removeClass('ps-lg-3 position-relative text-nowrap');
+                $('th:not(:last-child)').addClass('fw-normal pe-1');
+                $('th:last-child').addClass('fw-normal px-0');
+
                 $('input[name="atualizacao"]').change(function() {
-                    FILTROS.atualizacao = $(this).val();
+                    FILTROS.atualizado_dias = $(this).val();
                     TABLE.ajax.reload();
                 });
 
@@ -370,8 +434,6 @@ class Procurar extends DataTable
                 el.find('th:nth-child(1)').unbind(); // Fornecedor
                 el.find('th:nth-child(3)').unbind(); // Tipo
                 el.find('th:nth-child(6)').unbind(); // Atualização
-
-                el.find('th:nth-child(1)').unbind()
 
                 el.find('th:nth-child(1) button:last').on('click', function() {
                     const order = $(this).find('i').hasClass('bx-up-arrow-alt') ? 'desc' : 'asc';

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Website;
 
 use App\DataTables\Website\Procurar;
-use App\DataTables\Website\ProcurarScout;
 use App\Http\Controllers\Painel\Controller;
 use App\Models\Cep;
 use App\Models\Modelo;
@@ -12,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ProcurarController extends Controller
 {
-    public function index(ProcurarScout $dataTable, Request $request)
+    public function index(Procurar $dataTable, Request $request)
     {
         $this->validate($request, [
             'q' => 'nullable|string',
