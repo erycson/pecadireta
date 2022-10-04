@@ -1,5 +1,5 @@
 <!-- Dealership -->
-<div class="bg-gradient-primary-light">
+<div class="bg-gradient-primary-light position-relative">
     <div class="container-xl py-4 py-lg-5">
 
         <div class="row gx-lg-5 gy-3">
@@ -104,4 +104,6 @@
             </div>
         </div>
     </div>
+
+    <i class='bx bx-check-circle bx-md bg-primary text-white rounded-circle p-2 position-absolute top-100 start-50 translate-middle'></i>
 </div>
