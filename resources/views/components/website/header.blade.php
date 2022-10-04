@@ -7,7 +7,7 @@
             </a>
         </div>
         <div class="col-auto">
-            <a href="index.php">
+            <a href="{{ route('website.home') }}">
                 <img src="{{ Vite::asset('resources/img/website/logo.svg') }}" height="42" class="logo" />
             </a>
         </div>
