@@ -4,7 +4,7 @@ import InputMask from 'react-input-mask';
 import AsyncSelect from 'react-select/async';
 
 function FiltrosPropcurar() {
-    const [procurar, setProcurar] = useState('');
+    const [procurar, setProcurar] = useState(FILTROS.q || '');
     const [tipoVeiculo, setTipoVeiculo] = useState('');
     const [montadora, setMontadora] = useState({value: '', label: 'Montadora'});
     const [modelo, setModelo] = useState({value: '', label: 'Modelo'});

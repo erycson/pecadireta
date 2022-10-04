@@ -32,7 +32,11 @@
     <x-slot:javascripts>
         <script>
             var TABLE = null;
-            var FILTROS = {};
+            @if (request()->filled('q'))
+                var FILTROS = {"q":"{{ request()->q }}"};
+            @else
+                var FILTROS = {};
+            @endif
             var FORNECEDOR_TIPOS = @json(\App\Models\FornecedorTipo::get()->map(fn($tipo) => ['id'=> $tipo->id, 'nome'=> $tipo->nome]));
             var PROCURAR_URL = "{{ route('website.procurar.index') }}";
             var MONTADORAS_URL = "{{ route('website.procurar.montadoras') }}";
