@@ -1,3 +1,8 @@
-@props(['disabled' => false, 'name', 'list'])
+@props(['disabled' => false, 'name', 'list', 'valor' => null])
 
-{!! Form::select($name, $list, old($name), $attributes->merge(['class' => $errors->has($name) ? 'is-invalid' : ''])->getAttributes()) !!}
+@php ($valor = old($name) ?? $valor)
+@if (enum_exists($valor))
+    @php ($valor = $valor->value)
+@endif
+
+{!! Form::select($name, $list, $valor ?? '', $attributes->merge(['class' => $errors->has($name) ? 'is-invalid' : ''])->getAttributes()) !!}

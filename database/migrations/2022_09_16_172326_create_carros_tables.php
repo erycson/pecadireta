@@ -34,24 +34,24 @@ return new class extends Migration
             $table->timestamp('removido_em', 0)->nullable();
         });
 
-        $agora = now();
-        DB::unprepared('SET IDENTITY_INSERT montadoras ON');
+        $csv   = trim(file_get_contents(storage_path('pecas.csv')));
+        $pecas = collect(array_map(fn ($linha) => str_getcsv($linha, ';'), explode("\n", $csv)));
+        $pecas
+            ->filter(fn ($peca) => !empty(trim($peca[3])))
+            ->groupBy(fn ($peca) => strtoupper(trim($peca[3])))
+            ->sortKeys()
+            ->each(function ($pecas, $marca) {
+                // Cadastra as Montadoras
+                $montadora = Montadora::create(['nome' => $marca]);
 
-        collect(json_decode(file_get_contents(storage_path('fipe-montadoras.json')), true))
-            ->map(fn ($montadora) => [...$montadora, 'criado_em' => $agora, 'atualizado_em' => $agora])
-            ->chunk(100)
-            ->each(fn ($grupo) => Montadora::insert($grupo->toArray()));
-
-        DB::unprepared('SET IDENTITY_INSERT montadoras OFF');
-
-        DB::unprepared('SET IDENTITY_INSERT modelos ON');
-
-        collect(json_decode(file_get_contents(storage_path('fipe-modelos.json')), true))
-            ->map(fn ($modelo) => [...$modelo, 'criado_em' => $agora, 'atualizado_em' => $agora])
-            ->chunk(100)
-            ->each(fn ($grupo) => Modelo::insert($grupo->toArray()));
-
-        DB::unprepared('SET IDENTITY_INSERT modelos OFF');
+                // Cadastra os Modelos
+                $pecas
+                    ->filter(fn ($peca) => !empty(trim($peca[4])))
+                    ->groupBy(fn ($peca) => strtoupper(trim($peca[4])))
+                    ->sortKeys()
+                    ->keys()
+                    ->each(fn($modelo) => $montadora->modelos()->create(['nome' => $modelo]));
+            });
     }
 
     /**

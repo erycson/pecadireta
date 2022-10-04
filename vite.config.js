@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/css/painel/global.scss',
                 'resources/js/painel/global.js',
                 'resources/js/painel/ceps/editar.jsx',
+                'resources/js/painel/pecas/editar.jsx',
                 'resources/js/painel/modelos/editar.jsx',
                 'resources/js/painel/usuarios/editar.jsx',
                 'resources/js/painel/fornecedores/editar.jsx',

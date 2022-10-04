@@ -5,6 +5,7 @@ use App\Libraries\Peca\TipoVeiculo;
 use App\Models\Fornecedor;
 use App\Models\Marca;
 use App\Models\Modelo;
+use App\Models\Montadora;
 use App\Models\Peca;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -38,11 +39,15 @@ return new class extends Migration
 
         Schema::create('pecas', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Fornecedor::class)->nullable()->references('id')->on('fornecedores')->cascadeOnUpdate()->onDelete('cascade');
-            $table->foreignIdFor(Marca::class)->references('id')->on('marcas')->cascadeOnUpdate()->onDelete('cascade');
+            $table->foreignIdFor(Fornecedor::class)->references('id')->on('fornecedores')->cascadeOnUpdate()->onDelete('cascade');
+            $table->foreignIdFor(Marca::class)->nullable()->references('id')->on('marcas')->cascadeOnUpdate()->onDelete('cascade');
             $table->string('tipo_peca')->nullable();
             $table->string('sku');
             $table->string('nome');
+            $table->string('categoria')->nullable();
+            $table->string('subcateogria')->nullable();
+            $table->string('tamanho')->nullable();
+            $table->string('peso')->nullable();
             $table->boolean('absoleta')->default(false);
             $table->unsignedInteger('estoque');
             $table->unsignedDecimal('preco', 10, 2);
@@ -60,32 +65,66 @@ return new class extends Migration
             $table->string('tipo_veiculo')->nullable();
         });
 
-        $m1 = Marca::create(['nome' => 'Fremax']);
-        $m2 = Marca::create(['nome' => 'Frasle']);
-        $m3 = Marca::create(['nome' => 'NGK']);
-        $m4 = Marca::create(['nome' => 'Wega']);
+        $csv   = trim(file_get_contents(storage_path('pecas.csv')));
+        $pecas = collect(array_map(fn ($linha) => str_getcsv($linha, ';'), explode("\n", $csv)));
 
-        $peca = Peca::create(['marca_id' => $m1->id, 'fornecedor_id' => 1, 'sku' => 'BD6486', 'nome' => 'DISCO DE FREIO TRASEIRO', 'estoque' => 12, 'preco' => 356.05, 'tipo_peca' => TipoPeca::Original]);
-        $peca->aplicacoes()->create(['modelo_id' => 6300, 'ano_de' => 2013, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5308, 'ano_de' => 2014, 'ano_ate' => 2017, 'tipo_veiculo' => TipoVeiculo::Carro ]);
+        $montadoras = Montadora::get()->keyBy('nome');
+        $modelos    = Modelo::get()->keyBy('nome');
 
-        $peca = Peca::create(['marca_id' => $m2->id, 'fornecedor_id' => 1, 'sku' => 'PD2197', 'nome' => 'PASTILHA DE FREIO DIANTEIRA', 'estoque' => 7, 'preco' => 296.71, 'tipo_peca' => TipoPeca::Original]);
-        $peca->aplicacoes()->create(['modelo_id' => 6300, 'ano_de' => 2013, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5308, 'ano_de' => 2014, 'ano_ate' => 2017, 'tipo_veiculo' => TipoVeiculo::Carro ]);
+        // Cadastra as marcas
+        $marcas = $pecas
+            ->filter(fn ($peca) => !empty(trim($peca[1])))
+            ->groupBy(fn ($peca) => strtoupper(trim($peca[1])))
+            ->sortKeys()
+            ->keys()
+            ->map(fn($marca) => Marca::create(['nome' => $marca]))
+            ->keyBy('nome');
 
-        $peca = Peca::create(['marca_id' => $m3->id, 'fornecedor_id' => 1, 'sku' => 'PLKR7B8E', 'nome' => 'VELA', 'estoque' => 30, 'preco' => 302.55, 'tipo_peca' => TipoPeca::Original]);
-        $peca->aplicacoes()->create(['modelo_id' => 5399, 'ano_de' => 2010, 'ano_ate' => 2014, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5307, 'ano_de' => 2008, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5500, 'ano_de' => 2011, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
+        $pecas
+            ->filter(fn ($peca) => intval($peca[8]) > 0)
+            ->map(fn ($peca) => collect([
+                'fornecedor_id' => 1,
+                'sku' => trim($peca[0]),
+                'marca_id' => optional($marcas->get(strtoupper(trim($peca[1]))))->id,
+                'nome' => trim($peca[2]),
+                'montadora_id' => optional($montadoras->get(strtoupper(trim($peca[3]))))->id,
+                'modelo_id' => optional($modelos->get(strtoupper(trim($peca[4]))))->id,
+                'ano_de' => intval(trim($peca[5])),
+                'ano_ate' => intval(trim($peca[6])),
+                'preco' => floatval(trim($peca[7])),
+                'estoque' => intval(trim($peca[8])),
+                'categoria' => strtoupper(trim($peca[9])),
+                'subcategoria' => strtoupper(trim($peca[10])),
+                'tamanho' => strtoupper(trim($peca[11])),
+                'peso' => strtoupper(trim($peca[12])),
+                'tipo_peca' => TipoPeca::Genuina->value,
+                'tipo_veiculo' => TipoVeiculo::Carro->value,
+                'absoleta' => false,
+            ]))
+            ->groupBy('sku')
+            ->each(function ($pecas) {
+                $peca = Peca::create($pecas->first()->only([
+                    'marca_id',
+                    'fornecedor_id',
+                    'sku',
+                    'nome',
+                    'estoque',
+                    'categoria',
+                    'subcateogria',
+                    'tamanho',
+                    'peso',
+                    'preco',
+                    'tipo_peca',
+                    'absoleta',
+                ])->toArray());
 
-        $peca = Peca::create(['marca_id' => $m4->id, 'fornecedor_id' => 1, 'sku' => 'AKX35161/C', 'nome' => 'FILTRO DE AR CONDICIONADO', 'estoque' => 17, 'preco' => 86.83, 'tipo_peca' => TipoPeca::Original]);
-        $peca->aplicacoes()->create(['modelo_id' => 5399, 'ano_de' => 2014, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5307, 'ano_de' => 2013, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5500, 'ano_de' => 2014, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-
-        $peca = Peca::create(['marca_id' => $m4->id, 'fornecedor_id' => 1, 'sku' => 'WR328', 'nome' => 'FILTRO DE AR', 'estoque' => 26, 'preco' => 97.35, 'tipo_peca' => TipoPeca::Original]);
-        $peca->aplicacoes()->create(['modelo_id' => 5399, 'ano_de' => 2013, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
-        $peca->aplicacoes()->create(['modelo_id' => 5500, 'ano_de' => 2014, 'ano_ate' => null, 'tipo_veiculo' => TipoVeiculo::Carro ]);
+                $pecas->each(fn ($aplicacao) => $peca->aplicacoes()->create($aplicacao->only([
+                    'modelo_id',
+                    'ano_de',
+                    'ano_ate',
+                    'tipo_veiculo'
+                ])->toArray()));
+            });
 
         $this->client->index('idx_pecas')->updateSortableAttributes([
             'fornecedor_nome',

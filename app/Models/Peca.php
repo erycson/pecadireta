@@ -22,8 +22,13 @@ class Peca extends Model
         'sku',
         'nome',
         'estoque',
+        'categoria',
+        'subcateogria',
+        'tamanho',
+        'peso',
         'preco',
         'tipo_peca',
+        'absoleta',
     ];
 
     protected $casts = [
@@ -32,7 +37,12 @@ class Peca extends Model
         'nome' => 'string',
         'estoque' => 'int',
         'preco' => 'float',
+        'categoria' => 'string',
+        'subcateogria' => 'string',
+        'tamanho' => 'string',
+        'peso' => 'string',
         'versao' => 'string',
+        'absoleta' => 'boolean',
         'tipo_peca' => TipoPeca::class,
     ];
 
@@ -113,8 +123,8 @@ class Peca extends Model
             'atualizado_dias' => $this->fornecedor->atualizacaoDias,
             'atualizado_em'   => $this->fornecedor->estoque_atualizado_em,
 
-            'marca_id'        => $this->marca->id,
-            'marca_nome'      => $this->marca->nome,
+            'marca_id'        => $this->marca?->id,
+            'marca_nome'      => $this->marca?->nome,
             'fornecedor_id'   => $this->fornecedor->id,
             'fornecedor_nome' => $this->fornecedor->nome_fantasia,
             'fornecedor_tipo' => $this->fornecedor->fornecedor_tipo_id,
