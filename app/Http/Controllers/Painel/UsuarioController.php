@@ -31,7 +31,7 @@ class UsuarioController extends Controller
         $form['senha'] = Hash::make($form['senha']);
         $usuario = Usuario::create($form);
 
-        $contatos = $request->input('contatos', []);
+        $contatos = $request->validated('contatos', []);
         $usuario->contatos()->createMany($contatos);
 
         DB::commit();
@@ -61,7 +61,7 @@ class UsuarioController extends Controller
         }
         $usuario->update($form);
 
-        $contatos = $request->input('contatos', []);
+        $contatos = $request->validated('contatos', []);
         $usuario->contatos()->delete();
         $usuario->contatos()->createMany($contatos);
 

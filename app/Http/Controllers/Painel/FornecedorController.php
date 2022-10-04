@@ -50,7 +50,7 @@ class FornecedorController extends Controller
             $fornecedor->addMediaFromRequest('arquivo')->usingName($file_name)->usingFileName($file_name)->toMediaCollection('logo');
         }
 
-        $contatos = $request->input('contatos', []);
+        $contatos = $request->validated('contatos', []);
         $fornecedor->contatos()->createMany($contatos);
 
         DB::commit();
@@ -101,7 +101,7 @@ class FornecedorController extends Controller
             $fornecedor->addMediaFromRequest('arquivo')->usingName($file_name)->usingFileName($file_name)->toMediaCollection('logo');
         }
 
-        $contatos = $request->input('contatos', []);
+        $contatos = $request->validated('contatos', []);
         $fornecedor->contatos()->delete();
         $fornecedor->contatos()->createMany($contatos);
 
