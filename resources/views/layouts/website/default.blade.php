@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Rifa Aqui') }}</title>
-    <link rel="icon" type="png" href="{{ Vite::asset('resources/img/website/favicon.png') }}" />
+    <link rel="icon" type="png" href="{{ Vite::asset('resources/img/website/favicon.svg') }}" />
 
     <!-- CSS -->
     @vite('resources/css/website/global.scss')
