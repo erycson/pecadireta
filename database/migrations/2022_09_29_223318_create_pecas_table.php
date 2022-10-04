@@ -54,6 +54,8 @@ return new class extends Migration
             $table->char('versao', 8);
             $table->timestamp('criado_em', 0);
             $table->timestamp('atualizado_em', 0);
+
+            $table->unique(['sku', 'fornecedor_id']);
         });
 
         Schema::create('aplicacoes', function (Blueprint $table) {

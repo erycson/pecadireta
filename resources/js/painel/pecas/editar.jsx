@@ -54,13 +54,13 @@ function Aplicacao({ id, aplicacao, onRemove }) {
 
             <div class="col-lg-1">
                 <label class="form-label">Ano De</label>
-                <input type="number" min="1" step="1" name={`aplicacoes[${id}][ano_de]`} class={'form-control ' + (ERRORS[`aplicacoes.${id}.ano_de`] && 'is-invalid')} value={anoDe} onChange={(e) => setAnoDe(e)} />
+                <input type="number" min="1" step="1" name={`aplicacoes[${id}][ano_de]`} class={'form-control ' + (ERRORS[`aplicacoes.${id}.ano_de`] && 'is-invalid')} value={anoDe} onChange={(e) => setAnoDe(e.target.value)} />
                 <InputFeedback for={`aplicacoes.${id}.ano_de`} />
             </div>
 
             <div class="col-lg-1">
                 <label class="form-label">Ano Até</label>
-                <input type="number" min="1" step="1" name={`aplicacoes[${id}][ano_ate]`} class={'form-control ' + (ERRORS[`aplicacoes.${id}.ano_ate`] && 'is-invalid')} value={anoAte} onChange={(e) => setAnoAte(e)} />
+                <input type="number" min="1" step="1" name={`aplicacoes[${id}][ano_ate]`} class={'form-control ' + (ERRORS[`aplicacoes.${id}.ano_ate`] && 'is-invalid')} value={anoAte} onChange={(e) => setAnoAte(e.target.value)} />
                 <InputFeedback for={`aplicacoes.${id}.ano_ate`} />
             </div>
 

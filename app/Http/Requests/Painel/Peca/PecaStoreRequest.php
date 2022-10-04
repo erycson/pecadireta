@@ -23,15 +23,47 @@ class PecaStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'marca_id' => 'required|exists:marcas,id',
-            'fornecedor_id' => 'required|exists:fornecedores,id',
-            'sku' => 'required|string|max:255',
-            'nome' => 'required|string|max:255',
-            'estoque' => 'required|number|min:1',
-            'preco' => 'required|number|min:0.01',
-            'tipo_peca' => 'required|in:alternativa,genuina,original,after,reuso',
-            'absoleta' => 'required|boolean',
+        $fornecedorId = $this->peca->fornecedor_id;
+
+        // Regra das aplicações
+        $rules = [
+            'aplicacoes'                => 'nullable|array',
+            'aplicacoes.*.tipo_veiculo' => 'required|in:carro,caminhao,moto',
+            'aplicacoes.*.modelo_id'    => 'nullable|exists:modelos,id',
         ];
+
+        $aplicacoes = $this->aplicacoes ?? [];
+        foreach ($aplicacoes as $i => $aplicacao) {
+            $rules["aplicacoes.{$i}.ano_de"]  = "nullable|numeric|lte:aplicacoes.{$i}.ano_ate|min:1000|max:3000";
+            $rules["aplicacoes.{$i}.ano_ate"] = "nullable|numeric|gte:aplicacoes.{$i}.ano_de|min:1000|max:3000";
+        }
+
+        return [
+            'marca_id'      => 'nullable|exists:marcas,id',
+            'fornecedor_id' => 'required|exists:fornecedores,id',
+            'sku'           => "required|string|max:255|unique:pecas,sku,NULL,id,fornecedor_id,{$fornecedorId}",
+            'nome'          => 'required|string|max:255',
+            'estoque'       => 'required|numeric|min:1',
+            'preco'         => 'required|numeric|min:0.01',
+            'tipo_peca'     => 'required|in:alternativa,genuina,original,after,reuso',
+            'absoleta'      => 'required|boolean',
+            ...$rules
+        ];
+    }
+
+    public function attributes()
+    {
+        $attributes = [
+            'aplicacoes.*.tipo_veiculo' => 'tipo de veículo',
+            'aplicacoes.*.modelo_id'    => 'veículo',
+        ];
+
+        $contatos = $this->contatos ?? [];
+        foreach ($contatos as $i => $contato) {
+            $attributes["aplicacoes.{$i}.ano_de"] = 'ano de';
+            $attributes["aplicacoes.{$i}.ano_de"] = 'ano até';
+        }
+
+        return $attributes;
     }
 }

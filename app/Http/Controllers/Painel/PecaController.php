@@ -12,6 +12,7 @@ use App\Models\Modelo;
 use App\Models\Montadora;
 use App\Models\Peca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PecaController extends Controller
 {
@@ -27,6 +28,8 @@ class PecaController extends Controller
 
     public function store(PecaStoreRequest $request)
     {
+        DB::beginTransaction();
+
         $peca = Peca::create($request->only([
             'marca_id',
             'fornecedor_id',
@@ -37,6 +40,11 @@ class PecaController extends Controller
             'tipo_peca',
             'absoleta',
         ]));
+
+        $aplicacoes = $request->validated('aplicacoes', []);
+        $peca->aplicacoes()->createMany($aplicacoes);
+
+        DB::commit();
 
         activity()
             ->event('painel.peca')
@@ -55,6 +63,8 @@ class PecaController extends Controller
 
     public function update(PecaUpdateRequest $request, Peca $peca)
     {
+        DB::beginTransaction();
+
         $peca->update($request->only([
             'marca_id',
             'fornecedor_id',
@@ -65,6 +75,12 @@ class PecaController extends Controller
             'tipo_peca',
             'absoleta',
         ]));
+
+        $aplicacoes = $request->validated('aplicacoes', []);
+        $peca->aplicacoes()->delete();
+        $peca->aplicacoes()->createMany($aplicacoes);
+
+        DB::commit();
 
         activity()
             ->event('painel.peca')
