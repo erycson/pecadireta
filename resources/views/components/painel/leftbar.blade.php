@@ -87,6 +87,13 @@
                 </div>
 
                 <div class="col">
+                    <a href="{{ route('painel.marcas.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.marcas.']) ? 'active' : '' }}">
+                        <i class="bx bxs-factory"></i>
+                        Marcas
+                    </a>
+                </div>
+
+                <div class="col">
                     <a href="{{ route('painel.ceps.index') }}" class="btn btn-menu {{ Str::contains($currentRoute, ['painel.ceps.']) ? 'active' : '' }}">
                         <i class="bx bx-map-alt"></i>
                         CEPs

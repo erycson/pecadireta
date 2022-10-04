@@ -8,10 +8,11 @@ use App\Http\Controllers\Painel\DashboardController;
 use App\Http\Controllers\Painel\FaqController;
 use App\Http\Controllers\Painel\FornecedorController;
 use App\Http\Controllers\Painel\FornecedorTipoController;
+use App\Http\Controllers\Painel\MarcaController;
 use App\Http\Controllers\Painel\ModeloController;
 use App\Http\Controllers\Painel\MontadoraController;
-use App\Http\Controllers\Painel\UsuarioController;
 use App\Http\Controllers\Painel\PecaController;
+use App\Http\Controllers\Painel\UsuarioController;
 use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('pecas', PecaController::class)->except('show');
     Route::resource('pecas', PecaController::class)->except('show');
 
-    Route::resource('marcas', PecaController::class)->except('show');
+    Route::resource('marcas', MarcaController::class)->except('show');
 
     Route::get('modelos/montadoras', [ModeloController::class, 'montadoras'])->name('modelos.montadoras');
     Route::resource('modelos', ModeloController::class)->except('show');

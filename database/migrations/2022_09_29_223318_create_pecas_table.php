@@ -39,8 +39,8 @@ return new class extends Migration
 
         Schema::create('pecas', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Fornecedor::class)->references('id')->on('fornecedores')->cascadeOnUpdate()->onDelete('cascade');
-            $table->foreignIdFor(Marca::class)->nullable()->references('id')->on('marcas')->cascadeOnUpdate()->onDelete('cascade');
+            $table->foreignIdFor(Fornecedor::class)->references('id')->on('fornecedores')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignIdFor(Marca::class)->nullable()->references('id')->on('marcas')->cascadeOnUpdate()->restrictOnDelete();
             $table->string('tipo_peca')->nullable();
             $table->string('sku');
             $table->string('nome');
@@ -60,8 +60,8 @@ return new class extends Migration
 
         Schema::create('aplicacoes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Peca::class)->references('id')->on('pecas')->cascadeOnUpdate()->onDelete('cascade');
-            $table->foreignIdFor(Modelo::class)->nullable()->references('id')->on('modelos')->cascadeOnUpdate()->onDelete('cascade');
+            $table->foreignIdFor(Peca::class)->references('id')->on('pecas')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignIdFor(Modelo::class)->nullable()->references('id')->on('modelos')->cascadeOnUpdate()->restrictOnDelete();
             $table->unsignedSmallInteger('ano_de')->nullable();
             $table->unsignedSmallInteger('ano_ate')->nullable();
             $table->string('tipo_veiculo')->nullable();
