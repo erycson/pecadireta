@@ -118,6 +118,7 @@ class Peca extends Model
             'sku'             => $this->sku,
             'nome'            => $this->nome,
             'estoque'         => $this->estoque,
+            'absoleta'        => $this->absoleta,
             'preco'           => $this->preco,
             'tipo_peca'       => $this->tipo_peca->value,
             'atualizado_dias' => $this->fornecedor->atualizacaoDias,

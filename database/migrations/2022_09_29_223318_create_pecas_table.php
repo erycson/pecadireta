@@ -39,8 +39,8 @@ return new class extends Migration
 
         Schema::create('pecas', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Fornecedor::class)->references('id')->on('fornecedores')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignIdFor(Marca::class)->nullable()->references('id')->on('marcas')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignIdFor(Fornecedor::class)->references('id')->on('fornecedores');
+            $table->foreignIdFor(Marca::class)->nullable()->references('id')->on('marcas');
             $table->string('tipo_peca')->nullable();
             $table->string('sku');
             $table->string('nome');
@@ -60,8 +60,8 @@ return new class extends Migration
 
         Schema::create('aplicacoes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Peca::class)->references('id')->on('pecas')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignIdFor(Modelo::class)->nullable()->references('id')->on('modelos')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignIdFor(Peca::class)->references('id')->on('pecas');
+            $table->foreignIdFor(Modelo::class)->nullable()->references('id')->on('modelos');
             $table->unsignedSmallInteger('ano_de')->nullable();
             $table->unsignedSmallInteger('ano_ate')->nullable();
             $table->string('tipo_veiculo')->nullable();
@@ -140,11 +140,13 @@ return new class extends Migration
             'montadoras',
             'modelos',
             'atualizado_dias',
+            'absoleta',
 
             'uf',
             'municipio',
             'cep',
 
+            'fornecedor_id',
             'fornecedor_tipo',
             'tipo_peca',
         ]);

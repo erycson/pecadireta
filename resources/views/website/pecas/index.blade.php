@@ -12,21 +12,21 @@
 
     @include('website.pecas.partials._peca')
 
-    {{-- @include('website.pecas.partials._estoque') --}}
+    @include('website.pecas.partials._estoque')
 
     <x-website.footer />
 
     <x-slot:javascripts>
-        {{-- <script>
+        <script>
             var TABLE = null;
-            var FILTROS = {};
+            @if (request()->filled('q'))
+                var FILTROS = {"absoleta":false,"q":"{{ request()->q }}"};
+            @else
+                var FILTROS = {"absoleta":false};
+            @endif
             var FORNECEDOR_TIPOS = @json(\App\Models\FornecedorTipo::get()->map(fn($tipo) => ['id'=> $tipo->id, 'nome'=> $tipo->nome]));
-            var PROCURAR_URL = "{{ route('website.procurar.index') }}";
-            var MONTADORAS_URL = "{{ route('website.procurar.montadoras') }}";
-            var MODELOS_URL = "{{ route('website.procurar.modelos') }}";
-            var MUNICIPIOS_URL = "{{ route('website.procurar.municipios') }}";
         </script>
         {!! $dataTable->scripts(null, ['defer', 'type' => 'module']) !!}
-        @vite('resources/js/website/procurar/index.jsx') --}}
+        @vite('resources/js/website/peca/index.jsx')
     </x-slot>
 </x-website.default-layout>
