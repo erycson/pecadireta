@@ -133,8 +133,8 @@ class Peca extends Model
             'municipio'       => $this->fornecedor->cep->municipio,
             'cep'             => $this->fornecedor->cep->cep,
 
-            'montadoras'     => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo->montadora->id)->toArray(),
-            'modelos'        => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo->id)->toArray(),
+            'montadoras'     => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo?->montadora->id)->toArray(),
+            'modelos'        => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->modelo?->id)->toArray(),
             'tipos_veiculos' => $this->aplicacoes->map(fn ($aplicacao) => $aplicacao->tipo_veiculo->value)->toArray(),
 
             // 'aplicacoes'      => $this->aplicacoes->map(fn ($aplicacao) => [
