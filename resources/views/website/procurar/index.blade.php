@@ -1,4 +1,8 @@
 <x-website.default-layout>
+    <x-slot:analytics>
+        <x-analytics pagina="procurar" />
+    </x-slot>
+
     <!-- Header -->
     <header class="header-page bg-dark py-3 py-lg-4 position-relative">
         <div class="container-xl position-relative" style="z-index: 3;">
