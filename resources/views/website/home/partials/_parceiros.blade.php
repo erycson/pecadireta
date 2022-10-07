@@ -8,7 +8,7 @@
                 <div class="swiper-slide">
                     <div class="square">
                         <div class="content p-3">
-                            <a href="#" class="stretched-link grayscale-link">
+                            <a href="{{ $parceiro->url }}" class="stretched-link grayscale-link">
                                 <img src="{{ $parceiro->getFirstMediaUrl('logo') }}" class="img-fluid" />
                             </a>
                         </div>

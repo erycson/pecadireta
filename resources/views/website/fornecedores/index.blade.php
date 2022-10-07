@@ -1,6 +1,6 @@
 <x-website.default-layout>
     <x-slot:analytics>
-        <x-analytics pagina="produto" :fornecedor="$peca->fornecedor->id" />
+        <x-analytics pagina="produto" :fornecedor="$fornecedor->id" />
     </x-slot>
 
     <!-- Header -->
@@ -13,8 +13,6 @@
     </header>
 
     @include('website.pecas.partials._fornecedor')
-
-    @include('website.pecas.partials._peca')
 
     @include('website.pecas.partials._estoque')
 
@@ -31,6 +29,6 @@
             var FORNECEDOR_TIPOS = @json(\App\Models\FornecedorTipo::get()->map(fn($tipo) => ['id'=> $tipo->id, 'nome'=> $tipo->nome]));
         </script>
         {!! $dataTable->scripts(null, ['defer', 'type' => 'module']) !!}
-        @vite('resources/js/website/peca/index.jsx')
+        @vite('resources/js/website/fornecedores/index.jsx')
     </x-slot>
 </x-website.default-layout>

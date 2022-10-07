@@ -24,7 +24,7 @@ class Estoque extends DataTable
      */
     public function dataTable($query)
     {
-        $this->fornecedor = request()->peca->fornecedor;
+        $this->fornecedor = request()->peca->fornecedor ?? request()->fornecedor;
         $this->scout = new ScoutDataTable(new Model, $query, $this->getScoutOptions());
 
         return ($this->scout)

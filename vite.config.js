@@ -20,6 +20,7 @@ export default defineConfig({
                 'resources/js/website/home/index.jsx',
                 'resources/js/website/peca/index.jsx',
                 'resources/js/website/procurar/index.jsx',
+                'resources/js/website/fornecedores/index.jsx',
             ],
             buildDirectory: 'build',
             refresh: true,
